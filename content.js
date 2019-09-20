@@ -4,10 +4,10 @@ function appl() {
 if (document.getElementById('apple-music-player') ==! null) {
 var test = true;
 }else{
-var ap_title = document.getElementsByClassName('web-chrome-playback-lcd__song-name typography-caption-emphasized')[0].textContent;
-var ap_al = document.getElementsByClassName('web-chrome-playback-lcd__sub-copy typography-caption')[0].innerText;
+var ap_title = document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll')[0].innerText;
+var ap_al = document.getElementsByClassName('web-chrome-playback-lcd__sub-copy-scroll')[0].innerText;
 var artw = document.getElementsByClassName('media-artwork-v2__image')[0].currentSrc;
-var ar_rep = artw.replace('42x42bb', '540x540bb');
+var ar_rep = artw.replace('44x44bb', '540x540bb');
 		if ('mediaSession' in navigator) {
 			navigator.mediaSession.metadata = new MediaMetadata({
 				title: ap_title,
