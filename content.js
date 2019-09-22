@@ -4,7 +4,7 @@ function appl() {
 if (document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll')[0] == null) {
 var test = true;
 }else{
-	var ap_title = document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll')[0].innerText;
+	var ap_title = document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll-inner-text-wrapper')[0].innerText.replace(/\r?\n/g, '');
 	var ap_al = document.getElementsByClassName('web-chrome-playback-lcd__sub-copy-scroll')[0].innerText;
 	var artw = document.getElementsByClassName('media-artwork-v2__image')[0].currentSrc;
 	var ar_rep = artw.replace('44x44bb', '540x540bb');
