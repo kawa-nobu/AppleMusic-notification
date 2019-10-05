@@ -1,0 +1,19 @@
+body{
+    height: 400px;
+    width: 300px;
+    text-align: center;
+}
+#cover{
+    height: 250px;
+    width: 250px;
+    border-radius: 8px;
+}
+#songname{
+    font-size: 23px;
+}
+#artist{
+    font-size: 16px;
+}
+#albun{
+    font-size: 10px;
+}

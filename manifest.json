@@ -1,12 +1,13 @@
 {
   "name": "AppleMusic-Notification",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "manifest_version": 2,
-  "description": "再生中のAppleMusic楽曲情報表示&操作 エラーが出ますが、タイマー制御なので仕様です",
+  "description": "再生中のAppleMusic楽曲情報表示&操作が出来ます。また、歌詞の表示も一部のみ出来ます。",
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
   "content_scripts": [{
     "matches": ["https://beta.music.apple.com/*"],
-    "js": [
-      "content.js"
-    ]
-  }]
-}
+    "js": ["content.js"]
+    }]
+  }
