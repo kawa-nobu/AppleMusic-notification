@@ -6,6 +6,7 @@ var artist_rep
 function send_data(){
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	song_name = message.songname;
+	song_name_conv = song_name.replace(/\s+/g, "+")
 	artist_name = message.artist.substring(0, message.artist.indexOf(" —"));
 	album_name = message.artist.substring(100, message.artist.indexOf("— ")+2);
 	artist_rep = message.artist.substring(0, message.artist.indexOf(" —")).replace(/CV:/g, '');
@@ -19,9 +20,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 
 document.addEventListener('DOMContentLoaded', function() {
 	var goto = document.getElementById('cover');
-	goto.addEventListener('click', function() {
+	goto.addEventListener('click', function() {	
 		chrome.windows.create({
-			url: "https://utaten.com/lyric/"+artist_rep.trim()+"/"+song_name.trim()+"/",
+			url: "https://utaten.com/lyric/"+artist_rep.trim()+"/"+song_name_conv.replace(/~/g,"～")+"/",
 			type: "popup",
 			height : 600,
 			width : 800
