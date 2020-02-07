@@ -1,8 +1,9 @@
 {
-  "name": "AppleMusic-Notification",
-  "version": "1.9.0",
+  "name": "__MSG_ext_name__",
+  "version": "2.0.0",
   "manifest_version": 2,
-  "description": "再生中のAppleMusic楽曲情報表示&操作が出来ます。また、歌詞の表示も一部のみ出来ます。",
+  "description": "__MSG_ext_desc__",
+  "default_locale": "en",
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": "icon.png"
@@ -10,6 +11,9 @@
   "icons" : {
     "16" : "icon.png"
   },
+  "web_accessible_resources" : [
+    "twitter.png"
+  ],
   "permissions" : [
     "contextMenus",
     "http://*/*",

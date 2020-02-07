@@ -1,5 +1,5 @@
 chrome.contextMenus.create({
-    "title" : "AppleMusicで検索",
+    "title" : chrome.i18n.getMessage('serch_title'),
     "type"  : "normal",
     "contexts" : ["selection"],
     "onclick" : function(info){

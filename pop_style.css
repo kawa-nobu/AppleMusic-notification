@@ -1,6 +1,8 @@
 body{
     height: 400px;
     width: 300px;
+}
+#main{
     text-align: center;
 }
 #cover{
@@ -16,4 +18,14 @@ body{
 }
 #albun{
     font-size: 10px;
+}
+#share{
+    position: relative;
+    top: 20px;
+    text-align: right;
+    visibility: hidden;
+}
+#tw_share{
+    width: 35px;
+    height: 35px;
 }
