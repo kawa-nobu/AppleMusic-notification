@@ -3,6 +3,8 @@
     "ext_desc": { "message": "You can display and operate Apple Music music information during playback. In addition, the lyrics can be displayed ." },
     "serch_title": { "message":"Search with AppleMusic" },
     "a_stop": { "message": "Stopping playback" },
+    "tw_tit": { "message": "Share songs on Twitter" },
+    "lrc_tit": { "message": "Click to view lyrics (UtaTen)" },
     "sh1": { "message": "Listening to " },
     "sh2": { "message": " \"" },
     "sh3": { "message": "\" On AppleMusic." }
