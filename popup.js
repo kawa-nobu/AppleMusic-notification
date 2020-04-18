@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	song_name = message.songname;
 	artist_name = message.artist.substring(0, message.artist.indexOf(" —"));
 	album_name = message.artist.substring(100, message.artist.indexOf("— ")+2);
-	artist_rep = encodeURIComponent(message.artist.substring(0, message.artist.indexOf(" —")).replace(/CV:/g, "").replace(/、/g, ","));
+	artist_rep = encodeURIComponent(message.artist.substring(0, message.artist.indexOf(" —")).replace(/CV:/g, "").replace(/、/g, ",").replace(/\s&\s/g, ","));
 	document.getElementById('cover').src = message.img_url;
 	document.getElementById('songname').innerText = song_name;
 	document.getElementById('artist').innerText = artist_name;
