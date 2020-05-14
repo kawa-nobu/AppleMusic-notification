@@ -1,13 +1,15 @@
 # AppleMusic-Notification
 
 ![スクショ](https://i.imgur.com/fG14epC.png "screen")
-Windows10等でWeb版AppleMusic(Beta)の再生中楽曲情報の表示、キーボードでの楽曲操作が出来ます。
+Windows10等でWeb版AppleMusicの再生中楽曲情報の表示、キーボードでの楽曲操作が出来ます。
 
-歌詞&楽曲情報表示機能を追加しました！（詳しくはリリースのv1.5をご覧ください。）
+歌詞&楽曲情報表示機能、Twitterへ共有できる「なうぷれツイート」も実装!
 
 現在、ライブラリ内の楽曲はWeb版の仕様上、おかしい事になっています
 
-また、AppleMusicのWeb版は現在ベータ版なので仕様が変わる事があります。頻繁にこのリポジトリ(ページ)内のリリースを確認して、アップデートしてください。
+また、AppleMusicのWeb版は仕様が変わる事があります。頻繁にこのリポジトリ(ページ)内のリリースを確認して、アップデート等してください。
+
+
 # 使用方法(推奨)
 一般ユーザーの方はChromeウェブストアでインストールする方をお勧めします。
 アップデートのラグはありますが、内容は同じで無料でお使いいただけます。
@@ -28,6 +30,6 @@ https://chrome.google.com/webstore/detail/applemusic-notification/oijfkgmlaaolhe
 
 7.後はお楽しみください。
 # 最後に
-問題やバグを発見した際にはコメントください。
+問題やバグやを発見した時や欲しい機能がある方はTwitterでの連絡やIssueの方を頂ければ幸いです!
 
 無理な場合は、Twiter 「 https://twitter.com/kw_nobu 」までご連絡ください。
