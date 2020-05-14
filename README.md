@@ -30,6 +30,6 @@ https://chrome.google.com/webstore/detail/applemusic-notification/oijfkgmlaaolhe
 
 7.後はお楽しみください。
 # 最後に
-問題やバグやを発見した時や欲しい機能がある方はTwitterでの連絡やIssueの方を頂ければ幸いです!
+問題やバグを発見した時や欲しい機能がある方はTwitterでの連絡やIssueの方を頂ければ幸いです!
 
 無理な場合は、Twiter 「 https://twitter.com/kw_nobu 」までご連絡ください。
