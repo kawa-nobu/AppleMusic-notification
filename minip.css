@@ -1,7 +1,3 @@
-body{
-    height: 400px;
-    width: 300px;
-}
 #main{
     text-align: center;
 }
@@ -19,33 +15,18 @@ body{
 #albun{
     font-size: 10px;
 }
-#control{
-    position: relative;
-    top: 20px;
-    text-align: center;
-}
-.sh_ico{
-    padding: 5px;
-    width: 35px;
-    height: 35px;
-}
 #share{
     position: relative;
-    padding: 10px;
     top: 20px;
     text-align: right;
     visibility: hidden;
-}
-#g_wind{
-    width: 35px;
-    height: 35px;
 }
 #tw_share{
     width: 35px;
     height: 35px;
 }
 #time_control{
-    text-align:center;
+    text-align: center;
     height: 50px;
     font-size: 20px;
     line-height: 50px;
@@ -56,7 +37,7 @@ body{
 }
 @media (prefers-color-scheme: dark) {
     body {
-      background-color: rgb(46, 46, 46);;
+      background-color: rgb(46, 46, 46);
       color: #fff;
     }
   }

@@ -9,5 +9,7 @@
     "sh1": { "message": "AppleMusicで" },
     "sh2": { "message": "の「" },
     "sh3": { "message": "」を聴いています。" },
-    "serch_url": { "message": "https://music.apple.com/jp/search?term=" }
+    "serch_url": { "message": "https://music.apple.com/jp/search?term=" },
+    "open_window": { "message": "ミニウィンドウを開く" },
+    "status_message": { "message": "再生停止中" }
 }

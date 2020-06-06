@@ -9,5 +9,7 @@
     "sh1": { "message": "Listening to " },
     "sh2": { "message": " \"" },
     "sh3": { "message": "\" On AppleMusic." },
-    "serch_url": { "message": "https://music.apple.com/en/search?term=" }
+    "serch_url": { "message": "https://music.apple.com/en/search?term=" },
+    "open_window": { "message": "Open MiniWindow" },
+    "status_message": { "message": "Stop playing" }
 }

@@ -64,23 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 		}
 	});
-	//window
-	var op_window = document.getElementById('g_wind');
-	var wop_url = chrome.extension.getURL('minip.html');
-	op_window.addEventListener('click', function() {
-		chrome.windows.create({
-			url: wop_url,
-			type: "popup",
-			height : 520,
-			width : 330
-		});
-	});
-	//end
 	var tw_s = document.getElementById('tw_share');
 	tw_s.src = chrome.extension.getURL('svg/twitter.svg');
-	op_window.src = chrome.extension.getURL('svg/miniw.svg');
-	//
-	op_window.title = chrome.i18n.getMessage('open_window');
 	tw_s.title = chrome.i18n.getMessage('tw_tit');
 	lyric.title = chrome.i18n.getMessage('lrc_tit');
 	document.getElementById('songname').innerText = chrome.i18n.getMessage('status_message');
