@@ -1,4 +1,3 @@
-setInterval(send_data, 100);
 var artist_name;
 var song_name;
 var album_name;
@@ -6,7 +5,7 @@ var artist_rep;
 var mdata;
 var tid;
 var st_p = true;
-function send_data(){
+var m_shurl;
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	try{
 		st_p = false;
@@ -18,10 +17,14 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 		if(document.getElementById('songname').innerText.length > 12){
 			document.getElementById('songname').style.fontSize = '20px';
 		}
-		document.getElementById('songname').innerText = song_name;
-		document.getElementById('artist').innerText = artist_name;
-		document.getElementById('album').innerText = album_name;
-		document.getElementById('share').style.visibility = "visible";
+		if(mdata != message.songname){
+			mdata = message.songname;
+			m_shurl = message.music_url;
+			document.getElementById('songname').innerText = song_name;
+			document.getElementById('artist').innerText = artist_name;
+			document.getElementById('album').innerText = album_name;
+			document.getElementById('share').style.visibility = "visible";
+		}
 		//nowtime
 		var dr_m = new Date(parseInt(message.duration*1000));
 		var nt_m = new Date(parseInt(message.now_time*1000));
@@ -38,7 +41,6 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	//end
 	return true;
 })	
-}
 //
 document.addEventListener('DOMContentLoaded', function() {
 	//SeekBar2020_0602
@@ -54,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	lyric.addEventListener('click', function() {
 		if(st_p == false){
 			var ure = encodeURIComponent(song_name.replace(/\+\:|:\+/g,":").replace(/~/g,"～").replace(/〜/g,"~"));
-			var aaa = "https://utaten.com/lyric/"+artist_rep.trim()+"/"+ure+"/";
+			var aaa = 'https://utaten.com/lyric/'+artist_rep.trim()+"/"+ure+"/";
 			console.log(aaa);
 			chrome.windows.create({
 				url: aaa,
@@ -85,13 +87,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	lyric.title = chrome.i18n.getMessage('lrc_tit');
 	document.getElementById('songname').innerText = chrome.i18n.getMessage('status_message');
 	if(window.matchMedia('(prefers-color-scheme: dark)').matches){
-		document.getElementById('cover').src = "https://music.apple.com/assets/product/MissingArtworkMusic_dark.svg";
+		document.getElementById('cover').src = 'https://music.apple.com/assets/product/MissingArtworkMusic_dark.svg';
 	}
+	//
 	//
 	tw_s.addEventListener('click', function() {
 		var s_text = encodeURIComponent(chrome.i18n.getMessage('sh1')+artist_name+chrome.i18n.getMessage('sh2')+song_name+chrome.i18n.getMessage('sh3'));
 		chrome.windows.create({
-			url: "https://twitter.com/intent/tweet?text="+s_text+"&hashtags=NowPlaying",
+			url: 'https://twitter.com/intent/tweet?text='+s_text+'&url='+encodeURIComponent(m_shurl)+'&hashtags=NowPlaying',
 			type: "popup",
 			height : 600,
 			width : 800
