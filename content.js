@@ -29,7 +29,8 @@ function appl() {
 	if (document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll')[0] == null) {
 		var test = true;
 	}else{
-		//end
+		if(location.hostname == "music.apple.com"){ //AppleMusic WebPlayer Only
+			//end
 		var ap_title = document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll-inner-text-wrapper')[0].innerText.trim();
 		var ap_al = document.getElementsByClassName('web-chrome-playback-lcd__sub-copy-scroll')[0].innerText;
 		var artw = document.getElementsByClassName('media-artwork-v2__image')[0].currentSrc;
@@ -137,6 +138,7 @@ function appl() {
 		}
 		var send_info = {songname: ap_title, artist: ap_al, img_url: ar_rep, duration: audio_duration, now_time: audio_nowtime, music_url: nm_url};
 		chrome.runtime.sendMessage(send_info);
+		}
 	}
 }
 
