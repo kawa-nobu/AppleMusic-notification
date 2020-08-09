@@ -23,7 +23,15 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 			document.getElementById('songname').innerText = song_name;
 			document.getElementById('artist').innerText = artist_name;
 			document.getElementById('album').innerText = album_name;
-			document.getElementById('share').style.visibility = "visible";
+			document.getElementById('g_wind').style.visibility = "visible";
+			document.getElementById('tw_share').style.visibility = "visible";
+			//
+			document.getElementById('eq_on').disabled = false;
+			document.getElementById('backg_on').disabled = false;
+			document.getElementById('bass_bar').disabled = false;
+			document.getElementById('mid_bar').disabled = false;
+			document.getElementById('tre_bar').disabled = false;
+			document.getElementById('eq_resrt').disabled = false;
 		}
 		//nowtime
 		var dr_m = new Date(parseInt(message.duration*1000));
@@ -41,6 +49,58 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	//end
 	return true;
 })	
+//
+var bass_db = 0;
+var mid_db = 0;
+var tre_db = 0;
+var mvol_db = 0;
+if (localStorage.getItem('amn_eqd') == null){
+	var eq_data = JSON.stringify({bass: bass_db, mid: mid_db, tre: tre_db, tab_id: tid});
+		localStorage.setItem('amn_eqd', eq_data);
+}
+document.addEventListener('DOMContentLoaded', function() {
+	document.getElementsByClassName('eq_bar')[0].addEventListener('input', function() {
+		bass_db = document.getElementById('bass_bar').value - 20;
+		var eq_data = {bass: bass_db, mid: mid_db, tre: tre_db, tab_id: tid, back_image: document.getElementById('backg_on').checked, eq_tf: document.getElementById('eq_on').checked};
+		localStorage.setItem('amn_eqd', JSON.stringify(eq_data));
+		chrome.runtime.sendMessage(eq_data);
+	}, false);
+	document.getElementsByClassName('eq_bar')[1].addEventListener('input', function() {
+		mid_db = document.getElementById('mid_bar').value - 20;
+		var eq_data = {bass: bass_db, mid: mid_db, tre: tre_db, tab_id: tid, back_image: document.getElementById('backg_on').checked, eq_tf: document.getElementById('eq_on').checked};
+		localStorage.setItem('amn_eqd', JSON.stringify(eq_data));
+		chrome.runtime.sendMessage(eq_data);
+	}, false);
+	document.getElementsByClassName('eq_bar')[2].addEventListener('input', function() {
+		tre_db = document.getElementById('tre_bar').value - 20;
+		var eq_data = {bass: bass_db, mid: mid_db, tre: tre_db, tab_id: tid, back_image: document.getElementById('backg_on').checked, eq_tf: document.getElementById('eq_on').checked};
+		localStorage.setItem('amn_eqd', JSON.stringify(eq_data));
+		chrome.runtime.sendMessage(eq_data);
+	}, false);
+	document.getElementById('backg_on').addEventListener('change', function(){
+		var eq_data = {bass: bass_db, mid: mid_db, tre: tre_db, tab_id: tid, back_image: document.getElementById('backg_on').checked, eq_tf: document.getElementById('eq_on').checked};
+		localStorage.setItem('amn_eqd', JSON.stringify(eq_data));
+		chrome.runtime.sendMessage(eq_data);
+	}, false);
+	document.getElementById('eq_on').addEventListener('change', function(){
+		window.alert(chrome.i18n.getMessage('eq_append_message'));
+		var eq_data = {bass: bass_db, mid: mid_db, tre: tre_db, tab_id: tid, back_image: document.getElementById('backg_on').checked, eq_tf: document.getElementById('eq_on').checked};
+		localStorage.setItem('amn_eqd', JSON.stringify(eq_data));
+		chrome.runtime.sendMessage(eq_data);
+	}, false);
+	document.getElementById('eq_reset').addEventListener('click', function(){
+		document.getElementById('bass_bar').value = 20;
+		document.getElementById('mid_bar').value = 20;
+		document.getElementById('tre_bar').value = 20;
+		bass_db = 0;
+		mid_db = 0;
+		tre_db = 0;
+		var eq_data = {bass: 0, mid: 0, tre: 0, tab_id: tid, back_image: document.getElementById('backg_on').checked, eq_tf: document.getElementById('eq_on').checked};
+		localStorage.setItem('amn_eqd', JSON.stringify(eq_data));
+		chrome.runtime.sendMessage(eq_data);
+	}, false);
+});
+
 //
 document.addEventListener('DOMContentLoaded', function() {
 	//SeekBar2020_0602
@@ -77,15 +137,28 @@ document.addEventListener('DOMContentLoaded', function() {
 			width : 330
 		});
 	});
-	//end
+	//
 	var tw_s = document.getElementById('tw_share');
+	var settings = document.getElementById('set_icon');
+	var backg_on = document.getElementById('backg_tf');
+	//
 	tw_s.src = chrome.extension.getURL('svg/twitter.svg');
 	op_window.src = chrome.extension.getURL('svg/miniw.svg');
+	settings.src = chrome.extension.getURL('svg/settings.svg');
 	//
 	op_window.title = chrome.i18n.getMessage('open_window');
 	tw_s.title = chrome.i18n.getMessage('tw_tit');
 	lyric.title = chrome.i18n.getMessage('lrc_tit');
+	settings.title = chrome.i18n.getMessage('setting_button');
 	document.getElementById('songname').innerText = chrome.i18n.getMessage('status_message');
+	document.getElementById('backg_tf').innerText = chrome.i18n.getMessage('backgtf_message');
+	document.getElementById('other_s_message').innerText = chrome.i18n.getMessage('other_set_message');
+	document.getElementById('backg_on').title = chrome.i18n.getMessage('backg_d_message');
+	document.getElementById('backg_on').title = chrome.i18n.getMessage('backg_d_message');
+	document.getElementById('bass_bar').title = chrome.i18n.getMessage('backg_d_message');
+	document.getElementById('mid_bar').title = chrome.i18n.getMessage('backg_d_message');
+	document.getElementById('tre_bar').title = chrome.i18n.getMessage('backg_d_message');
+	//
 	if(window.matchMedia('(prefers-color-scheme: dark)').matches){
 		document.getElementById('cover').src = 'https://music.apple.com/assets/product/MissingArtworkMusic_dark.svg';
 	}
@@ -99,5 +172,32 @@ document.addEventListener('DOMContentLoaded', function() {
 			height : 600,
 			width : 800
 		  })
-    });
+	});
+	//set
+	settings.addEventListener('click', function() {
+		if(document.getElementById('settings').style.visibility == "visible"){
+			document.getElementById('settings').style.visibility = "hidden";
+		}else{
+			var local_set = JSON.parse(localStorage.getItem('amn_eqd'));
+			document.getElementById('bass_bar').value = local_set.bass + 20;
+			document.getElementById('mid_bar').value = local_set.mid + 20;
+			document.getElementById('tre_bar').value = local_set.tre + 20;
+			document.getElementById('settings').style.visibility = "visible";
+			document.getElementById('backg_on').checked = local_set.back_image;
+			document.getElementById('eq_on').checked = local_set.eq_tf;
+			// back mode change
+			if(document.getElementById('artist').innerText == ""){
+				document.getElementById('eq_on').disabled = true;
+				document.getElementById('backg_on').disabled = true;
+				document.getElementById('bass_bar').disabled = true;
+				document.getElementById('mid_bar').disabled = true;
+				document.getElementById('tre_bar').disabled = true;
+				document.getElementById('eq_resrt').disabled = true;
+			}
+		}
+	});
+	if(window.onbeforeunload){
+		var eq_data = {bass: bass_db, mid: mid_db, tre: tre_db, tab_id: tid};
+		localStorage.setItem('amn_eqd', JSON.stringify(eq_data));
+	}
 });

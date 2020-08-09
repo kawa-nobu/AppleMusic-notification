@@ -20,3 +20,11 @@ chrome.runtime.onMessage.addListener(function(dur_data, sender, sendResponse){
     }
 	return true;
 });
+chrome.runtime.onMessage.addListener(function(eqa_data, sender, sendResponse){
+    //popupからもらったEQの値をcontentへ送信
+    console.log(eqa_data);
+    if(eqa_data.bass != undefined){
+        chrome.tabs.sendMessage(eqa_data.tab_id,eqa_data);
+    }
+	return true;
+});

@@ -1,6 +1,8 @@
 body{
     height: 400px;
     width: 300px;
+    
+    z-index: 1;
 }
 #main{
     text-align: center;
@@ -30,19 +32,21 @@ body{
     height: 35px;
 }
 #share{
-    position: relative;
     padding: 10px;
     top: 20px;
+    position: relative;
     text-align: right;
-    visibility: hidden;
+    z-index: 1;
 }
 #g_wind{
     width: 35px;
     height: 35px;
+    visibility: hidden;
 }
 #tw_share{
     width: 35px;
     height: 35px;
+    visibility: hidden;
 }
 #time_control{
     text-align:center;
@@ -53,6 +57,22 @@ body{
 #s_bar{
     width: 190px;
     height: 15px;
+}
+#settings{
+    position: absolute;
+    text-align: center;
+    visibility: hidden;
+    width: 200px;
+    top:30%;
+    left:18%;
+    background-color: slategrey;
+    z-index: 2; 
+}
+#set_icon{
+    margin: 0px 20px 0px 0px;
+}
+.eq_num{
+    width: 35px;
 }
 @media (prefers-color-scheme: dark) {
     body {

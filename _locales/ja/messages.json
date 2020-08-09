@@ -11,5 +11,10 @@
     "sh3": { "message": "」を聴いています。" },
     "serch_url": { "message": "https://music.apple.com/jp/search?term=" },
     "open_window": { "message": "ミニウィンドウを開く" },
-    "status_message": { "message": "再生停止中" }
+    "status_message": { "message": "再生停止中" },
+    "setting_button": { "message": "設定(EQ,背景)" },
+    "backgtf_message": { "message": "背景をアルバムアートに変更" },
+    "other_set_message": { "message": "その他の設定" },
+    "backg_d_message": { "message": "再生中に設定できます" },
+    "eq_append_message": { "message": "EQをオンにすると、CD等から取り込んだ楽曲(iCloudミュージックライブラリの楽曲)が無音になります。\r\n(AppleMusicの楽曲に置き換えられた場合は再生できます)\r\nEQをオフにしたい場合はチェックを外してから、AppleMusicタブを再読み込みする事により適用されます。\r\r音割れが生じた場合はAppleMusicタブ内の音量調節バーで音量を下げてみてください。" }
 }

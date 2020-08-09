@@ -18,8 +18,24 @@
         </div>
     </div>
     <div id="share">
+        <input type="image" src="" id="set_icon" class="sh_ico" title="">
         <input type="image" src="" id="g_wind" class="sh_ico" title="">
         <input type="image" src="" id="tw_share" class="sh_ico" title="">
+    </div>   
+    <div id="settings">
+        <span>EQ</span><input type="checkbox" id="eq_on">
+        <br>
+        64Hz&nbsp;<input type="range" id="bass_bar" class="eq_bar" value="20" max="40">
+        <br>
+        800Hz<input type="range" id="mid_bar" class="eq_bar" value="20" max="40">
+        <br>
+        2kHz&nbsp;&nbsp;<input type="range" class="eq_bar" id="tre_bar" value="20" max="40">
+        <br>
+        <input type="button" id="eq_reset" value="ALL Reset">
+        <br>
+        <span id="other_s_message"></span>
+        <br>
+        <span id="backg_tf"></span><input type="checkbox" id="backg_on">
     </div>
 </body>
 </html>
