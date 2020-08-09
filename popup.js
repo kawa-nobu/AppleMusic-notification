@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 			document.getElementById('bass_bar').disabled = false;
 			document.getElementById('mid_bar').disabled = false;
 			document.getElementById('tre_bar').disabled = false;
-			document.getElementById('eq_resrt').disabled = false;
+			document.getElementById('eq_reset').disabled = false;
 		}
 		//nowtime
 		var dr_m = new Date(parseInt(message.duration*1000));
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				document.getElementById('bass_bar').disabled = true;
 				document.getElementById('mid_bar').disabled = true;
 				document.getElementById('tre_bar').disabled = true;
-				document.getElementById('eq_resrt').disabled = true;
+				document.getElementById('eq_reset').disabled = true;
 			}
 		}
 	});
