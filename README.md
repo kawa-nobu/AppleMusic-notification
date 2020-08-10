@@ -1,7 +1,8 @@
 # AppleMusic-Notification
 
-![スクショ](https://i.imgur.com/fG14epC.png "screen")
+![スクショ](https://i.imgur.com/KXc6Bio.png "screen")
 Windows10等でWeb版AppleMusicの再生中楽曲情報の表示、キーボードでの楽曲操作が出来ます。
+また、v2.0.5よりイコライザ機能、背景のアルバムアート化も出来るようになりました。
 
 歌詞&楽曲情報表示機能、Twitterへ共有できる「なうぷれツイート」も実装!
 
