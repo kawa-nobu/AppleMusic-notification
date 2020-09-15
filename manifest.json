@@ -1,6 +1,6 @@
 {
   "name": "__MSG_ext_name__",
-  "version": "2.0.5",
+  "version": "2.0.5.1",
   "manifest_version": 2,
   "description": "__MSG_ext_desc__",
   "default_locale": "en",
@@ -16,7 +16,9 @@
     "svg/miniw.svg",
     "svg/settings.svg",
     "minip.html",
-    "minip.js"
+    "minip.js",
+    "nv_minip.html",
+    "nv_minip.js"
   ],
   "permissions" : [
     "contextMenus",
@@ -27,7 +29,7 @@
     "scripts" : ["background.js"]
   },
   "content_scripts": [{
-    "matches": ["https://music.apple.com/*","http://*/*","https://*/*"],
+    "matches": ["https://music.apple.com/*"],
     "js": ["content.js"]
     }]
   }

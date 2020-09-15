@@ -50,13 +50,23 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	return true;
 })	
 //
-var bass_db = 0;
-var mid_db = 0;
-var tre_db = 0;
-var mvol_db = 0;
+var bass_db,mid_db,tre_db,mvol_db;
 if (localStorage.getItem('amn_eqd') == null){
+	bass_db = 0;
+	mid_db = 0;
+	tre_db = 0;
+	mvol_db = 0;
 	var eq_data = JSON.stringify({bass: bass_db, mid: mid_db, tre: tre_db, tab_id: tid});
-		localStorage.setItem('amn_eqd', eq_data);
+	localStorage.setItem('amn_eqd', eq_data);
+}else{
+	var local_set = JSON.parse(localStorage.getItem('amn_eqd'));
+	bass_db = local_set.bass;
+	mid_db = local_set.mid;
+	tre_db = local_set.tre;
+	mvol_db = 0;
+}
+if(localStorage.getItem('new_minip') == null){
+	localStorage.setItem('new_minip', true);
 }
 document.addEventListener('DOMContentLoaded', function() {
 	document.getElementsByClassName('eq_bar')[0].addEventListener('input', function() {
@@ -100,9 +110,19 @@ document.addEventListener('DOMContentLoaded', function() {
 		chrome.runtime.sendMessage(eq_data);
 	}, false);
 });
-
 //
 document.addEventListener('DOMContentLoaded', function() {
+	//new miniplayer
+	if(localStorage.getItem('new_minip') == "false"){
+		document.getElementById('new_minip_on').checked = false;
+	}else{
+		document.getElementById('new_minip_on').checked = true;
+	}
+	//check
+	document.getElementById('new_minip_on').addEventListener('change', function(){
+		localStorage.setItem('new_minip', document.getElementById('new_minip_on').checked);
+	}, false);
+
 	//SeekBar2020_0602
 	var s_bar = document.getElementById('s_bar');
 	s_bar.addEventListener('input', function() {
@@ -128,13 +148,24 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	//window
 	var op_window = document.getElementById('g_wind');
-	var wop_url = chrome.extension.getURL('minip.html');
 	op_window.addEventListener('click', function() {
+		var wop_url;
+		var mp_w;
+		var mp_h;
+		if(document.getElementById('new_minip_on').checked == true){
+			wop_url = chrome.extension.getURL('nv_minip.html');//20200912
+			mp_w = 480;
+			mp_h = 175;
+		}else{
+			wop_url = chrome.extension.getURL('minip.html');//20200912
+			mp_w = 330;
+			mp_h = 520;
+		}
 		chrome.windows.create({
 			url: wop_url,
 			type: "popup",
-			height : 520,
-			width : 330
+			width : mp_w,
+			height : mp_h
 		});
 	});
 	//
@@ -158,6 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById('bass_bar').title = chrome.i18n.getMessage('backg_d_message');
 	document.getElementById('mid_bar').title = chrome.i18n.getMessage('backg_d_message');
 	document.getElementById('tre_bar').title = chrome.i18n.getMessage('backg_d_message');
+	//
+	document.getElementById('new_minip').innerText = chrome.i18n.getMessage('new_minip_message');
 	//
 	if(window.matchMedia('(prefers-color-scheme: dark)').matches){
 		document.getElementById('cover').src = 'https://music.apple.com/assets/product/MissingArtworkMusic_dark.svg';

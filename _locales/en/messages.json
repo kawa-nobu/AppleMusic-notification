@@ -16,5 +16,6 @@
     "backgtf_message": { "message": "Change background to album art" },
     "other_set_message": { "message": "Other settings" },
     "backg_d_message": { "message": "Set only during playback" },
-    "eq_append_message": { "message": "When EQ is turned on, songs imported from CDs (iCloud Music Library songs) are silenced.\r\n(It can be played if it is replaced with Apple Music songs)\r\nIf you want to turn off the EQ, uncheck it and apply it by reloading the Apple Music tab.\r\nIf the sound is cracked, try lowering the volume on the volume control bar in the Apple Music tab." }
+    "eq_append_message": { "message": "When EQ is turned on, songs imported from CDs (iCloud Music Library songs) are silenced.\r\n(It can be played if it is replaced with Apple Music songs)\r\nIf you want to turn off the EQ, uncheck it and apply it by reloading the Apple Music tab.\r\nIf the sound is cracked, try lowering the volume on the volume control bar in the Apple Music tab." },
+    "new_minip_message": { "message": "Use a new mini player" }
 }

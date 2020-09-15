@@ -1,0 +1,116 @@
+body{
+    width: 430px;
+    height: 160px;
+}
+#cover{
+    height: 120px;
+    width: 120px;
+    border-radius: 8px;
+    text-align: right;
+}
+#songname{
+    display: block;
+    font-size: 22px;
+    width: 230px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#artist{
+    display: block;
+    font-size: 13px;
+    width: 230px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#album{
+    display: block;
+    font-size: 11px;
+    width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*scroll*/
+#songname:hover{
+    font-size: 22px;
+    display: block;
+    width: 230px;
+    overflow: visible;
+    white-space : nowrap;
+    animation   : textscroll 5s linear infinite;
+}
+#artist:hover{
+    font-size: 13px;
+    display: block;
+    width: 230px;
+    overflow: visible;
+    white-space : nowrap;
+    animation   : textscroll 5s linear infinite;
+}
+#album:hover{
+    font-size: 11px;
+    display: block;
+    width: 230px;
+    overflow: visible;
+    white-space : nowrap;
+    animation   : textscroll 5s linear infinite;
+}
+@keyframes textscroll{
+    0% { transform: translateX(0)}
+  100% { transform: translateX(-100%)}
+}
+/*scroll end*/
+
+#share{
+    position: relative;
+    top: 10px;
+    text-align: left;
+    visibility: hidden;
+}
+#tw_share{
+    width: 35px;
+    height: 35px;
+}
+#time_control{
+    text-align: center;
+    height: 50px;
+    font-size: 20px;
+    line-height: 20px;
+}
+#s_bar{
+    width: 190px;
+    height: 15px;
+}
+#metadata{
+    overflow: hidden;
+    float: right;
+    text-align: left;
+    margin: 10px;
+}
+  /*scroll bar*/
+  ::-webkit-scrollbar{
+      width: 2px;
+  }
+  ::-webkit-scrollbar:horizontal{
+      width: 2px;
+  }
+  ::-webkit-scrollbar-track{
+      background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb{
+      border-radius: 10px;
+      background-color: gray;
+  }
+  ::-webkit-scrollbar-thumb:hover{
+    border-radius: 10px;
+    background-color: black;
+}
+@media (prefers-color-scheme: dark) {
+    body {
+      background-color: rgb(46, 46, 46);
+      color: #fff;
+    }
+  }
