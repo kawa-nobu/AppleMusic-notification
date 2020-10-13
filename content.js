@@ -45,7 +45,7 @@ function appl() {
 			m_upl = ap_title;
 			navigator.mediaSession.metadata = new MediaMetadata({
 				title: ap_title,
-				artist: ap_al,
+				artist: ap_al.substring(0, ap_al.indexOf(" —"))+"—"+ap_al.substring(100, ap_al.indexOf("— ")+2),
 				album: alb,
 				artwork: [{ src: ar_rep,  sizes: '540x540',   type: 'image/jpeg' }]
 			});
@@ -109,6 +109,7 @@ function appl() {
 				}
 			// append backgroud
 			if(JSON.parse(localStorage.amn_content_eqd).back_g){
+				//amn_bacground_imageが無い状態のとき
 				if(document.getElementById('amn_backgroud_image') == null){
 					//create bakgroud
 				var back = document.createElement("div");
@@ -121,15 +122,38 @@ function appl() {
 					//background light-mode
 					back.style = 'background-image: url('+ar_rep+');background-position: center;background-repeat: no-repeat;background-size: cover;height: 1000px;width: 100%;z-index: 0;position: absolute;filter: brightness(0.3) blur(10px);';
 				}
+				//noimage
+				if(document.getElementById('amn_backgroud_image') != null){
+					if(document.getElementById('amn_backgroud_image').style.backgroundImage == 'url("")'){
+						document.getElementById('amn_backgroud_image').style.backgroundImage = ("url("+ar_rep+")");
+					}	
+				}
+				//append back
 				document.getElementById("web-main").insertBefore(back, document.getElementById("web-main").firstChild);
+				//既にバックグラウンドがあるとき
 				}else{
 					if(document.body.classList.value.indexOf('dark-mode') == -1){
-						document.getElementById('amn_backgroud_image').style.filter = 'blur(10px)';
-						document.getElementById('amn_backgroud_image').style.backgroundImage = 'url('+ar_rep+')';
+						document.getElementById('amn_backgroud_image').animate({backgroundImage:"url("+ar_rep+")", filter:"blur(10px)"}, {duration :1000, fill:"both"});
 					}
 					if(document.body.classList.value.indexOf('dark-mode') != -1){
-						document.getElementById('amn_backgroud_image').style.backgroundImage = 'url('+ar_rep+')';
-						document.getElementById('amn_backgroud_image').style.filter = 'brightness(0.3) blur(10px)';
+						document.getElementById('amn_backgroud_image').animate({backgroundImage:"url("+ar_rep+")", filter:"blur(10px) brightness(0.3)"}, {duration :1000, fill:"both"});
+					}
+					//noimage
+					if(document.getElementById('amn_backgroud_image') != null){
+						if(document.getElementById('amn_backgroud_image').style.backgroundImage == 'url("")'){
+							//retry load image
+							for(var i=0;i<30;i++){
+								if(document.body.classList.value.indexOf('dark-mode') == -1){
+									document.getElementById('amn_backgroud_image').animate({backgroundImage:"url("+ar_rep+")", filter:"blur(10px)"}, {duration :1000, fill:"both"});
+								}
+								if(document.body.classList.value.indexOf('dark-mode') != -1){
+									document.getElementById('amn_backgroud_image').animate({backgroundImage:"url("+ar_rep+")", filter:"blur(10px) brightness(0.3)"}, {duration :1000, fill:"both"});
+								}
+								if(document.getElementById('amn_backgroud_image').style.backgroundImage != 'url("")'){
+									break
+								}
+							}
+						}	
 					}
 				}
 			}
