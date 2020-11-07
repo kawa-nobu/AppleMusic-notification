@@ -34,7 +34,7 @@ function appl() {
 		var ap_title = document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll-inner-text-wrapper')[0].innerText.trim();
 		var ap_al = document.getElementsByClassName('web-chrome-playback-lcd__sub-copy-scroll')[0].innerText;
 		var artw = document.getElementsByClassName('media-artwork-v2__image')[0].currentSrc;
-		var ar_rep = artw.replace('44x44bb', '540x540bb');
+		var ar_rep = artw.replace(/\d{1,2}x\d{1,2}bb/g, '500x500bb');
 		var alb = document.getElementsByClassName('web-chrome-playback-lcd__sub-copy-scroll-inner-text-wrapper')[0].childNodes[3].textContent;
 		//2020_05_24_nowtime
 		var audio_duration = document.getElementsByTagName('audio')[0].duration;
@@ -45,7 +45,7 @@ function appl() {
 			m_upl = ap_title;
 			navigator.mediaSession.metadata = new MediaMetadata({
 				title: ap_title,
-				artist: ap_al.substring(0, ap_al.indexOf(" —"))+"—"+ap_al.substring(100, ap_al.indexOf("— ")+2),
+				artist: ap_al.split(/\s[\u2014]\s\s/)[0] + "-" + ap_al.split(/\s[\u2014]\s\s/)[1],
 				album: alb,
 				artwork: [{ src: ar_rep,  sizes: '540x540',   type: 'image/jpeg' }]
 			});

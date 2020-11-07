@@ -10,19 +10,28 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	try{
 		st_p = false;
 		song_name = message.songname;
-		artist_name = message.artist.substring(0, message.artist.indexOf(" —"));
-		album_name = message.artist.substring(100, message.artist.indexOf("— ")+2);
-		artist_rep = encodeURIComponent(message.artist.substring(0, message.artist.indexOf(" —")).replace(/CV:/g, "").replace(/、/g, ",").replace(/\s&\s/g, ","));
-		document.getElementById('cover').src = message.img_url;
-		if(document.getElementById('songname').innerText.length > 12){
-			document.getElementById('songname').style.fontSize = '20px';
-		}
 		if(mdata != message.songname){
+			artist_name = message.artist.substring(0, message.artist.indexOf(" —"));
+			album_name = message.artist.substring(100, message.artist.indexOf("— ")+2);
+			artist_rep = encodeURIComponent(message.artist.substring(0, message.artist.indexOf(" —")).replace(/CV:/g, "").replace(/、/g, ",").replace(/\s&\s/g, ","));
+			//document.getElementById('cover').src = message.img_url;
+			if(document.getElementById('songname').innerText.length > 12){
+				document.getElementById('songname').style.fontSize = '20px';
+			}
+			//fcsr
+			document.getElementById('fl_back_cover').src = message.img_url;
+			document.getElementById('cover').animate({backgroundImage:"url("+message.img_url+")"}, {duration :1000, fill:"both"});
+			//
 			mdata = message.songname;
 			m_shurl = message.music_url;
 			document.getElementById('songname').innerText = song_name;
 			document.getElementById('artist').innerText = artist_name;
 			document.getElementById('album').innerText = album_name;
+			//fullscr
+			document.getElementsByClassName('songname_fscr')[0].innerText = song_name;
+			document.getElementsByClassName('artist_fscr')[0].innerText = artist_name;
+			document.getElementsByClassName('album_fscr')[0].innerText = album_name;
+			//
 			document.getElementById('share').style.visibility = "visible";
 			document.title =  "▶" + song_name + "-" + artist_name;
 		}
@@ -71,6 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
 	tw_s.src = chrome.extension.getURL('svg/twitter.svg');
 	tw_s.title = chrome.i18n.getMessage('tw_tit');
 	lyric.title = chrome.i18n.getMessage('lrc_tit');
+	//fullscr
+	document.getElementById('full_screen').src = chrome.extension.getURL('svg/fullscr.svg');
+	document.getElementById('full_screen').title = chrome.i18n.getMessage('fullscr_message');
+	document.getElementById('full_screen').addEventListener('click', function() {
+		document.getElementById('main').requestFullscreen();
+	});
+	//
 	document.getElementById('songname').innerText = chrome.i18n.getMessage('status_message');
 	if(window.matchMedia('(prefers-color-scheme: dark)').matches){
 		document.getElementById('cover').src = "https://music.apple.com/assets/product/MissingArtworkMusic_dark.svg";

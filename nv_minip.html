@@ -7,21 +7,26 @@
 </head>
 <body>
     <div id="main">
-        <input type="image" src="https://beta.music.apple.com/assets/product/MissingArtworkMusic.svg" id="cover" title="">
+        <div id="cover" title=""></div>
+        <img src="" id="fl_back_cover">
         <div id="metadata">
-            <div id="songname"></div>
-            <div id="artist"></div>
-            <div id="album"></div>
+            <div id="songname" class="scroll"></div>
+            <div id="artist" class="scroll"></div>
+            <div id="album" class="scroll"></div>
             <div id="time_control">
                 <span id="nowtime">0:00</span>
                 <input type="range" id="s_bar" value="0" >
                 <span id="a_duration">0:00</span>
             </div>
+        <div id="metadata-fscr">
+            <div id="songname" class="songname_fscr"></div>
+            <div id="artist" class="artist_fscr"></div>
+            <div id="album" class="album_fscr"></div>
         </div>
-        
     </div>
     <div id="share">
         <input type="image" src="" id="tw_share" title="">
+        <input type="image" src="" id="full_screen" title="">
     </div>
 </body>
 </html>
