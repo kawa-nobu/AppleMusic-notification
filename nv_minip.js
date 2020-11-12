@@ -14,14 +14,41 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 			artist_name = message.artist.substring(0, message.artist.indexOf(" —"));
 			album_name = message.artist.substring(100, message.artist.indexOf("— ")+2);
 			artist_rep = encodeURIComponent(message.artist.substring(0, message.artist.indexOf(" —")).replace(/CV:/g, "").replace(/、/g, ",").replace(/\s&\s/g, ","));
-			//document.getElementById('cover').src = message.img_url;
+			
 			if(document.getElementById('songname').innerText.length > 12){
 				document.getElementById('songname').style.fontSize = '20px';
 			}
-			//fcsr
+			//image XHR
+			var image_bin = "";
+			var image_xhr = new XMLHttpRequest();
+			image_xhr.open("GET", message.img_url, true);
+			image_xhr.responseType = "arraybuffer";
+			image_xhr.onload = function(){
+				//console.log(image_xhr.status+"-"+image_xhr.readyState);
+				//console.log(message.img_url);
+				var image_type;
+				if (message.img_url == "https://music.apple.com/assets/product/MissingArtworkMusic.svg") {
+					image_type = "image/svg+xml";
+				} else {
+					image_type = "image/jpeg";
+				}
+				if(image_xhr.readyState == 4 && image_xhr.status == 200){
+					var im_byte = new Uint8Array(image_xhr.response);
+					for(var i=0;i<im_byte.byteLength;i++){
+						image_bin += String.fromCharCode(im_byte[i]);
+					}
+					image_b64 =  btoa(image_bin);
+					//console.log(image_b64);
+					//back append
+					document.getElementById('fl_back_cover').src = "data:" + image_type + ";base64," + image_b64;
+					document.getElementById('cover').animate({backgroundImage:"url(" + "data:" + image_type + ";base64," + image_b64 + ")"}, {duration :1000, fill:"both"});
+				}
+			}
+			image_xhr.send();
+			/*fcsr
 			document.getElementById('fl_back_cover').src = message.img_url;
 			document.getElementById('cover').animate({backgroundImage:"url("+message.img_url+")"}, {duration :1000, fill:"both"});
-			//
+			*/
 			mdata = message.songname;
 			m_shurl = message.music_url;
 			document.getElementById('songname').innerText = song_name;

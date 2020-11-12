@@ -1,6 +1,7 @@
 var m_upl;
 var nm_url;
 var ef_init = true;
+var ar_rep;
 //webaudio vars
 var audio_tag;//audiotag set
 var context;//create ac
@@ -10,6 +11,8 @@ var bass_filter;
 var mid_filter;
 var tre_filter;
 var gainNode;
+//image Base64
+var image_b64;
 //
 window.onload = function(){
 	if(localStorage.amn_content_eqd == undefined){
@@ -21,12 +24,11 @@ window.onload = function(){
 	}
 	//append css
 	var cre_css = document.createElement("style");
-	cre_css.type = 'text/css';
 	cre_css.innerText = '.product-info {z-index: 0;}';
 	document.getElementsByTagName('head')[0].appendChild(cre_css);
 setInterval(appl, 600);
 function appl() {
-	if (document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll')[0] == null) {
+	if (document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll')[0] == null || document.getElementsByClassName('media-artwork-v2__image')[0].currentSrc == "") {
 		var test = true;
 	}else{
 		if(location.hostname == "music.apple.com"){ //AppleMusic WebPlayer Only
@@ -34,7 +36,7 @@ function appl() {
 		var ap_title = document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll-inner-text-wrapper')[0].innerText.trim();
 		var ap_al = document.getElementsByClassName('web-chrome-playback-lcd__sub-copy-scroll')[0].innerText;
 		var artw = document.getElementsByClassName('media-artwork-v2__image')[0].currentSrc;
-		var ar_rep = artw.replace(/\d{1,2}x\d{1,2}bb/g, '500x500bb');
+		ar_rep = artw.replace(/\d{1,3}x\d{1,3}bb(?:-\d{1,4})?/g, '500x500');
 		var alb = document.getElementsByClassName('web-chrome-playback-lcd__sub-copy-scroll-inner-text-wrapper')[0].childNodes[3].textContent;
 		//2020_05_24_nowtime
 		var audio_duration = document.getElementsByTagName('audio')[0].duration;
@@ -47,7 +49,7 @@ function appl() {
 				title: ap_title,
 				artist: ap_al.split(/\s[\u2014]\s\s/)[0] + "-" + ap_al.split(/\s[\u2014]\s\s/)[1],
 				album: alb,
-				artwork: [{ src: ar_rep,  sizes: '540x540',   type: 'image/jpeg' }]
+				artwork: [{ src: ar_rep,  sizes: '500x500',   type: 'image/jpeg' }]
 			});
 			
 			navigator.mediaSession.setActionHandler('play', function() {document.getElementsByClassName('button-reset web-chrome-playback-controls__playback-btn')[1].click()});
@@ -107,62 +109,116 @@ function appl() {
 					//backup restore
 					localStorage.setItem('amn_content_eqd', JSON.stringify({bass: JSON.parse(localStorage.amn_content_eqd_bup).bass, mid: JSON.parse(localStorage.amn_content_eqd_bup).mid, tre: JSON.parse(localStorage.amn_content_eqd_bup).tre, back_g: JSON.parse(localStorage.amn_content_eqd_bup).back_g, eq_tf: JSON.parse(localStorage.amn_content_eqd_bup).eq_tf}));
 				}
-			// append backgroud
-			if(JSON.parse(localStorage.amn_content_eqd).back_g){
-				//amn_bacground_imageが無い状態のとき
-				if(document.getElementById('amn_backgroud_image') == null){
-					//create bakgroud
-				var back = document.createElement("div");
-				back.id = 'amn_backgroud_image';
-				if(document.body.classList.value.indexOf('dark-mode') == -1){
-					//background light-mode
-					back.style = 'background-image: url('+ar_rep+');background-position: center;background-repeat: no-repeat;background-size: cover;height: 1000px;width: 100%;z-index: 0;position: absolute;filter: blur(10px);';
-				}
-				if(document.body.classList.value.indexOf('dark-mode') != -1){
-					//background light-mode
-					back.style = 'background-image: url('+ar_rep+');background-position: center;background-repeat: no-repeat;background-size: cover;height: 1000px;width: 100%;z-index: 0;position: absolute;filter: brightness(0.3) blur(10px);';
-				}
-				//noimage
-				if(document.getElementById('amn_backgroud_image') != null){
-					if(document.getElementById('amn_backgroud_image').style.backgroundImage == 'url("")'){
-						document.getElementById('amn_backgroud_image').style.backgroundImage = ("url("+ar_rep+")");
-					}	
-				}
-				//append back
-				document.getElementById("web-main").insertBefore(back, document.getElementById("web-main").firstChild);
-				//既にバックグラウンドがあるとき
-				}else{
-					if(document.body.classList.value.indexOf('dark-mode') == -1){
-						document.getElementById('amn_backgroud_image').animate({backgroundImage:"url("+ar_rep+")", filter:"blur(10px)"}, {duration :1000, fill:"both"});
-					}
-					if(document.body.classList.value.indexOf('dark-mode') != -1){
-						document.getElementById('amn_backgroud_image').animate({backgroundImage:"url("+ar_rep+")", filter:"blur(10px) brightness(0.3)"}, {duration :1000, fill:"both"});
-					}
-					//noimage
-					if(document.getElementById('amn_backgroud_image') != null){
-						if(document.getElementById('amn_backgroud_image').style.backgroundImage == 'url("")'){
-							//retry load image
-							for(var i=0;i<30;i++){
-								if(document.body.classList.value.indexOf('dark-mode') == -1){
-									document.getElementById('amn_backgroud_image').animate({backgroundImage:"url("+ar_rep+")", filter:"blur(10px)"}, {duration :1000, fill:"both"});
-								}
-								if(document.body.classList.value.indexOf('dark-mode') != -1){
-									document.getElementById('amn_backgroud_image').animate({backgroundImage:"url("+ar_rep+")", filter:"blur(10px) brightness(0.3)"}, {duration :1000, fill:"both"});
-								}
-								if(document.getElementById('amn_backgroud_image').style.backgroundImage != 'url("")'){
-									break
-								}
+				// append backgroud
+				if(JSON.parse(localStorage.amn_content_eqd).back_g){
+					//XHRで画像もらってくる
+					var image_bin = "";
+					var image_xhr = new XMLHttpRequest();
+					image_xhr.open("GET", ar_rep, true);
+					image_xhr.responseType = "arraybuffer";
+					image_xhr.onload = function(){
+						//console.log(image_xhr.status+"-"+image_xhr.readyState);
+						//console.log(ar_rep);
+						if(image_xhr.readyState == 4 && image_xhr.status == 200){
+							var im_byte = new Uint8Array(image_xhr.response);
+							for(var i=0;i<im_byte.byteLength;i++){
+								image_bin += String.fromCharCode(im_byte[i]);
 							}
-						}	
+							image_b64 =  btoa(image_bin);
+							//console.log(image_b64);
+							//back append
+							append_background();
+							}
 					}
+					image_xhr.send();
 				}
 			}
-		}
-		//end
+			//end
 		}
 		var send_info = {songname: ap_title, artist: ap_al, img_url: ar_rep, duration: audio_duration, now_time: audio_nowtime, music_url: nm_url};
 		chrome.runtime.sendMessage(send_info);
+	}
+}
+}
+
+function append_background() {
+	//missing svg
+	var image_type;
+	if (ar_rep == "https://music.apple.com/assets/product/MissingArtworkMusic.svg") {
+	  image_type = "image/svg+xml";
+	} else {
+	  image_type = "image/jpeg";
+	}
+	//amn_bacground_imageが無い状態のとき
+	if (document.getElementById('amn_backgroud_image') == null) {
+	  //create bakgroud
+	  var back = document.createElement("div");
+	  back.id = 'amn_backgroud_image';
+	  if (document.body.classList.value.indexOf('dark-mode') == -1) {
+		//background light-mode
+		back.style = "background-image: url(" + "data:" + image_type + ";base64," + image_b64 + ");background-position: center;background-repeat: no-repeat;background-size: cover;height: 100%;width: 100%;z-index: 0;position: absolute;filter: blur(10px);";
+	  }
+	  if (document.body.classList.value.indexOf('dark-mode') != -1) {
+		//background light-mode
+		back.style = "background-image: url(" + "data:" + image_type + ";base64," + image_b64 + ");background-position: center;background-repeat: no-repeat;background-size: cover;height: 100%;width: 100%;z-index: 0;position: absolute;filter: brightness(0.3) blur(10px);";
+	  }
+	  //noimage
+	  if (document.getElementById('amn_backgroud_image') != null) {
+		if (document.getElementById('amn_backgroud_image').style.backgroundImage == 'url("")') {
+		  document.getElementById('amn_backgroud_image').style.backgroundImage = ("url(" + "data:" + image_type + ";base64," + image_b64 + ")");
 		}
+	  }
+	  //append back
+	  document.getElementById("web-main").insertBefore(back, document.getElementById("web-main").firstChild);
+	  //既にバックグラウンドがあるとき
+	} else {
+	  if (document.body.classList.value.indexOf('dark-mode') == -1) {
+		document.getElementById('amn_backgroud_image').animate({
+		  backgroundImage: "url(" + "data:" + image_type + ";base64," + image_b64 + ")",
+		  filter: "blur(10px)"
+		}, {
+		  duration: 1000,
+		  fill: "both"
+		});
+	  }
+	  if (document.body.classList.value.indexOf('dark-mode') != -1) {
+		document.getElementById('amn_backgroud_image').animate({
+		  backgroundImage: "url(" + "data:" + image_type + ";base64," + image_b64 + ")",
+		  filter: "blur(10px) brightness(0.3)"
+		}, {
+		  duration: 1000,
+		  fill: "both"
+		});
+	  }
+	  //noimage
+	  if (document.getElementById('amn_backgroud_image') != null) {
+		if (document.getElementById('amn_backgroud_image').style.backgroundImage == 'url("")') {
+		  //retry load image
+		  for (var i = 0; i < 30; i++) {
+			if (document.body.classList.value.indexOf('dark-mode') == -1) {
+			  document.getElementById('amn_backgroud_image').animate({
+				backgroundImage: "url(" + "data:" + image_type + ";base64," + image_b64 + ")",
+				filter: "blur(10px)"
+			  }, {
+				duration: 1000,
+				fill: "both"
+			  });
+			}
+			if (document.body.classList.value.indexOf('dark-mode') != -1) {
+			  document.getElementById('amn_backgroud_image').animate({
+				backgroundImage: "url(" + "data:" + image_type + ";base64," + image_b64 + ")",
+				filter: "blur(10px) brightness(0.3)"
+			  }, {
+				duration: 1000,
+				fill: "both"
+			  });
+			}
+			if (document.getElementById('amn_backgroud_image').style.backgroundImage != 'url("")') {
+			  break
+			}
+		  }
+		}
+	  }
 	}
 }
 
