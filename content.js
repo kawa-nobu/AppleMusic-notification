@@ -122,7 +122,7 @@ function appl() {
 			if(location.pathname == "/library/albums" || location.pathname == "/library/albums/"){
 				document.getElementsByClassName('albums-virtual-scrolling-container')[0].removeAttribute('style');
 			}
-			if(location.pathname.replace("/library/albums/", "").length >1){
+			if(location.pathname.indexOf("/library/albums/") == 0){
 				document.getElementsByClassName('media-artwork-v2__image')[1].style.height = "270px";
 			}
 		}
