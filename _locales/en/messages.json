@@ -2,7 +2,8 @@
     "lang": { "message": "en" },
     "ext_name": { "message": "AppleMusic-Notification" },
     "ext_desc": { "message": "You can display and operate Apple Music music information during playback. In addition, the lyrics can be displayed ." },
-    "serch_title": { "message":"Search with AppleMusic" },
+    "serch_title": { "message":"Search with AppleMusic\"%s\"" },
+    "serch_title_2": { "message": "」" },
     "a_stop": { "message": "Stopping playback" },
     "tw_tit": { "message": "Share songs on Twitter" },
     "lrc_tit": { "message": "Click to view lyrics (UtaTen)" },
@@ -18,5 +19,12 @@
     "backg_d_message": { "message": "Set only during playback" },
     "eq_append_message": { "message": "When EQ is turned on, songs imported from CDs (iCloud Music Library songs) are silenced.\r\n(It can be played if it is replaced with Apple Music songs)\r\nIf you want to turn off the EQ, uncheck it and apply it by reloading the Apple Music tab.\r\nIf the sound is cracked, try lowering the volume on the volume control bar in the Apple Music tab." },
     "new_minip_message": { "message": "Use a new mini player" },
-    "fullscr_message": { "message": "Full Screen Mode (Exit with ESC key)" }
+    "fullscr_message": { "message": "Full Screen Mode (Exit with ESC key)" },
+    "s_play_pause": { "message": "Play/Pause" },
+    "s_next": { "message": "Next song" },
+    "s_prev": { "message": "Previous song" },
+    "tos": { "message": "Terms of Service" },
+    "feedback": { "message": "Send feedback" },
+    "tos_message": { "message": "This extension is open source software. For more information, visit the Chrome Web Store and visit the GitHub repository for this extension.\r\nPlease use at your own risk.\r\nThis extension leverages Apple Music debug logs to enhance what is displayed.\r\nWith this extension, information is not sent to an external server except when the lyrics are displayed and when the album art is acquired. In addition, we do not acquire any information that identifies the user and send it to the outside." },
+    "feedback_url": { "message": "https://forms.gle/rspX2EoAF2MhTVMZ6" }
 }

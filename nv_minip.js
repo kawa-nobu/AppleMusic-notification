@@ -6,14 +6,16 @@ var mdata;
 var tid;
 var st_p = true;
 var m_shurl;
+var full_scr_status = false;
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	try{
+		var ar_alb_split = message.artist.split('<=-=>');
 		st_p = false;
 		song_name = message.songname;
 		if(mdata != message.songname){
-			artist_name = message.artist.substring(0, message.artist.indexOf(" —"));
-			album_name = message.artist.substring(100, message.artist.indexOf("— ")+2);
-			artist_rep = encodeURIComponent(message.artist.substring(0, message.artist.indexOf(" —")).replace(/CV:/g, "").replace(/、/g, ",").replace(/\s&\s/g, ","));
+			artist_name = ar_alb_split[0];
+			album_name = ar_alb_split[1];
+			artist_rep = encodeURIComponent(ar_alb_split[0].replace(/CV:/g, "").replace(/、/g, ",").replace(/\s&\s/g, ","));
 			
 			if(document.getElementById('songname').innerText.length > 12){
 				document.getElementById('songname').style.fontSize = '20px';
@@ -111,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById('full_screen').src = chrome.extension.getURL('svg/fullscr.svg');
 	document.getElementById('full_screen').title = chrome.i18n.getMessage('fullscr_message');
 	document.getElementById('full_screen').addEventListener('click', function() {
+		full_scr_status = true;
 		document.getElementById('main').requestFullscreen();
 	});
 	//
@@ -127,5 +130,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			height : 600,
 			width : 800
 		  })
-    });
+	});
+	document.getElementById('fl_back_cover').addEventListener('dblclick', function() {
+		if(full_scr_status == true){
+			full_scr_status = false;
+			document.exitFullscreen();
+		}
+	});
 });
