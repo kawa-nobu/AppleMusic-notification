@@ -171,7 +171,7 @@ function appl() {
 				}
 				
 				var lcds_arts = document.getElementsByClassName('media-artwork-v2__image')[0];
-				if(lcds_arts.src == "https://music.apple.com/assets/product/MissingArtworkMusic.svg" || lcds_arts.src.indexOf(".blobstore.apple.com")>-1){
+				if(lcds_arts.src == "https://music.apple.com/assets/product/MissingArtworkMusic.svg" || lcds_arts.src == "https://music.apple.com/assets/product/MissingArtworkMusic_dark.svg" ||  lcds_arts.src.indexOf(".blobstore.apple.com")>-1){
 					lcds_arts.src = ar_rep;
 				}
 			}else{
