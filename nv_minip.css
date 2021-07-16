@@ -162,7 +162,7 @@ body{
     #main:-webkit-full-screen #cover{
         position: absolute;
         z-index: 2;
-        width: 55%;
+        width: 100vh;
         height: 100%;
         text-align: center;
         display: block;
@@ -186,22 +186,32 @@ body{
     }
 
     #main:-webkit-full-screen #time_control{
-        position: relative;
-        top: 62%;
+        position: absolute;
+        width: 100%;
+        height: 13%;
         text-align: center;
-        height: 50px;
-        font-size: 20px;
+        font-size: 3.5vh;
         line-height: 20px;
+        bottom: 0;
+    }
+    #main:-webkit-full-screen #nowtime{
+        margin-right: 0vw;
+    }
+    #main:-webkit-full-screen #a_duration{
+        margin-left: 7.5vw;
     }
     #main:-webkit-full-screen #s_bar{
-        width: 50%;
-        height: 15px;
+        vertical-align: bottom;
+        width: calc(50vw - 15%);
+        transform: scale(1.5);
+        transform-origin: center left;
+        margin-right: 10vw;
     }
     #main:-webkit-full-screen #songname.songname_fscr{
         visibility: visible;
         position: absolute;
-        top: 7%;
-        font-size: 450%;
+        top: 0.1vh;
+        font-size: 8vh;
         text-align: left;
         left: 3%;
         font-weight: bold;
@@ -213,8 +223,8 @@ body{
     #main:-webkit-full-screen #artist.artist_fscr{
         visibility: visible;
         position: absolute;
-        top: 40%;
-        font-size: 300%;
+        top: 9.3vh;
+        font-size: 5.5vh;
         text-align: left;
         left: 3%;
         width: 90%;
@@ -225,8 +235,8 @@ body{
     #main:-webkit-full-screen #album.album_fscr{
         visibility: visible;
         position: absolute;
-        top: 60%;
-        font-size: 300%;
+        top: 16.5vh;
+        font-size: 3vh;
         text-align: left;
         left: 3%;
         width: 90%;

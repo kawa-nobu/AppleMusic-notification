@@ -54,6 +54,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 		document.getElementById('s_bar').max = parseInt(message.duration*100);
 		document.getElementById('s_bar').value = parseInt(message.now_time*100);
 		tid = sender.tab.id;
+		//bitrate
+		if(message.music_bitrate != null){
+			document.getElementById('songname').title = `${message.music_bitrate}kbps-${message.music_samplerate / 1000}kHz`;
+		}else{
+			document.getElementById('songname').title = "";
+		}
 	}
 	catch(e){
 		//console.log("exception");

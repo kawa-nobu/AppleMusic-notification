@@ -16,24 +16,29 @@ var image_b64;
 //
 var artist_alb;
 var ms_ar_al;
-//
+//bitrate
+var m_bitrate,sm_rate;
 //fix bug
 if(location.pathname == "/library/albums"){
 	document.getElementsByClassName('web-navigation__navigation-details-view page-container')[0].addEventListener('scroll', function() {
-		console.warn("aaa");
+		//console.warn("aaa");
 	}, false);
 }
 //
 window.onload = function(){
 	var head = document.getElementsByTagName('head')[0];
 	var linka = document.createElement('script');
-	linka.innerText = `
+	linka.innerText = String.raw`
 	var logdata = console.log;
 var log_array = [];
 var bgc;
 var comps;
 var a_art_src;
 var music_type;
+var music_bitrate;
+var music_samplerate;
+var music_relese_date;
+var al_id;
 console.log = function () {
   log_array = [];
   log_array.push.apply(log_array, arguments);
@@ -76,9 +81,41 @@ console.log = function () {
     } else {
       music_type = "song";
     }
+	if(typeof log_array[1]?._assets.length != "undefined" && typeof log_array[1]?.flavor != "undefined"){
+		if(log_array[1]._assets.length == 1){
+			music_bitrate = log_array[1]._assets[0].metadata.bitRate;
+		}else{
+			music_samplerate = null;
+		}
+		if(log_array[1]._assets.length > 1){
+			music_bitrate = log_array[1]._assets[0].metadata.bitRate;
+			if(typeof log_array[1]._assets[0].metadata?.sampleRate != "undefined"){
+				music_samplerate = log_array[1]._assets[0].metadata.sampleRate;
+			}else{
+				music_bitrate = null;
+				music_samplerate = null;
+			}
+		}else{
+			music_bitrate = null;
+			music_samplerate = null;
+		
+		}
+	}else{
+		music_bitrate = null;
+		music_samplerate = null;
+	}
+	if(typeof log_array[1]?.albumId == "undefined"){
+		if(typeof log_array[1]?._container.id != "undefined"){
+			al_id = log_array[1]._container.id;
+		}else{
+			al_id = null;
+		}
+	}else{
+		al_id = log_array[1].albumId;
+	}
     var song_info = {
       pl_trg: log_array[1]._container.type,
-      al_id: log_array[1].albumId,
+      al_id: al_id,
       s_id: log_array[1].attributes.playParams.id,
       composer: comps,
       song_name: log_array[1].attributes.name,
@@ -86,7 +123,9 @@ console.log = function () {
       album_name: log_array[1].attributes.albumName,
       art_work: a_art_src,
       bg_color: bgc,
-      music_type: music_type
+      music_type: music_type,
+	  music_bitrate: music_bitrate,
+	  music_samplerate: music_samplerate
     };
     console.warn(song_info);
     if (document.getElementById("amn_metadata") == null) {
@@ -132,7 +171,7 @@ console.log = function () {
 	var cre_css = document.createElement("style");
 	cre_css.innerText = '.product-info {z-index: 0;}';
 	document.getElementsByTagName('head')[0].appendChild(cre_css);
-setInterval(appl, 600);
+setInterval(appl, 550);
 function appl() {
 	try {
 		if(location.hostname == "music.apple.com"){
@@ -168,6 +207,13 @@ function appl() {
 				}else{
 					ms_ar_al = `${metadata.artist_name}`;
 					artist_alb = `${metadata.artist_name}<=-=>`;
+				}
+				if(metadata.music_bitrate !== null){
+					m_bitrate = metadata.music_bitrate;
+					sm_rate = metadata.music_samplerate;
+				}else{
+					m_bitrate = null;
+					sm_rate = null;
 				}
 				
 				var lcds_arts = document.getElementsByClassName('media-artwork-v2__image')[0];
@@ -322,7 +368,7 @@ function appl() {
 			}
 			//end
 		}
-		var send_info = {songname: ap_title, artist: artist_alb, img_url: ar_rep, duration: audio_duration, now_time: audio_nowtime, music_url: nm_url, paused : audio_pause};
+		var send_info = {songname: ap_title, artist: artist_alb, img_url: ar_rep, duration: audio_duration, now_time: audio_nowtime, music_url: nm_url, music_bitrate: m_bitrate, music_samplerate: sm_rate, paused : audio_pause};
 		chrome.runtime.sendMessage(send_info);
 	}
 }
