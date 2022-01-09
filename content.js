@@ -18,6 +18,8 @@ var artist_alb;
 var ms_ar_al;
 //bitrate
 var m_bitrate,sm_rate;
+//metadata_duration
+var metadata_duration;
 //fix bug
 if(location.pathname == "/library/albums"){
 	document.getElementsByClassName('web-navigation__navigation-details-view page-container')[0].addEventListener('scroll', function() {
@@ -76,6 +78,11 @@ console.log = function () {
     } else {
       comps = log_array[1].attributes.composerName;
     }
+	if (log_array[1].attributes.durationInMillis == undefined) {
+		metadata_duration = null;
+	  } else {
+		metadata_duration = log_array[1].attributes.durationInMillis / 1000;
+	  }
     if (log_array[1].normalizedType == "music-videos") {
       music_type = "mv";
     } else {
@@ -125,7 +132,8 @@ console.log = function () {
       bg_color: bgc,
       music_type: music_type,
 	  music_bitrate: music_bitrate,
-	  music_samplerate: music_samplerate
+	  music_samplerate: music_samplerate,
+	  music_duration: metadata_duration
     };
     console.warn(song_info);
     if (document.getElementById("amn_metadata") == null) {
@@ -236,8 +244,14 @@ function appl() {
 			audio_duration = null;
 			audio_nowtime = null;
 		}else{
-			audio_duration = document.getElementsByTagName('audio')[0].duration;
-			audio_nowtime = document.getElementsByTagName('audio')[0].currentTime;
+			if(localStorage.getItem('music-app-pref:show-logs') == "true"){
+				audio_duration = Math.ceil(JSON.parse(document.getElementById('amn_metadata').innerText).music_duration);
+			}else{
+				audio_duration = document.getElementsByTagName('audio')[0].duration;
+			}
+			audio_nowtime = document.getElementsByClassName("web-chrome-playback-lcd__scrub")[0].ariaValueNow;
+			//audio_nowtime = document.getElementsByClassName("web-chrome-playback-lcd__scrub")[0].style.cssText.substring(12,19) * 0.01 * 284.507
+			//audio_nowtime = document.getElementsByTagName('audio')[0].currentTime;
 			audio_pause = document.getElementsByTagName("audio")[0].paused;
 		}
 		
@@ -311,7 +325,7 @@ function appl() {
 				}
 			//
 			
-
+			//document.getElementsByTagName("audio")[0].currentTime = 0;
 				if (ef_init == true && JSON.parse(localStorage.amn_content_eqd).eq_tf){
 					effect_init();
 					//value backup
