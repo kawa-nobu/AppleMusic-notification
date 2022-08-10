@@ -28,129 +28,19 @@ if(location.pathname == "/library/albums"){
 }
 //
 window.onload = function(){
-	var head = document.getElementsByTagName('head')[0];
-	var linka = document.createElement('script');
-	linka.innerText = String.raw`
-	var logdata = console.log;
-var log_array = [];
-var bgc;
-var comps;
-var a_art_src;
-var music_type;
-var music_bitrate;
-var music_samplerate;
-var music_relese_date;
-var al_id;
-console.log = function () {
-  log_array = [];
-  log_array.push.apply(log_array, arguments);
-  console.warn(log_array);
-  if (log_array[0] == "MK.JS nowPlayingItemDidChange" && typeof log_array[1] != "undefined") {
-    if (typeof log_array[1]._container.attributes == "undefined") {
-      bgc = null;
-      if (typeof log_array[1].artwork?.url != "undefined") {
-        a_art_src = log_array[1].artwork.url;
-      } else {
-        a_art_src = "https://music.apple.com/assets/product/MissingArtworkMusic.svg";
-      }
-    } else {
-      if (log_array[1].artworkURL == undefined) {
-		  if(typeof log_array[1]._container.attributes.artwork?.url == "undefined"){
-			a_art_src = "https://music.apple.com/assets/product/MissingArtworkMusic.svg";
-		  }else{
-			  a_art_src = log_array[1]._container.attributes.artwork.url;
-		  }
-      } else {
-		  if(typeof log_array[1].artworkURL == "undefined"){
-			  a_art_src = "https://music.apple.com/assets/product/MissingArtworkMusic.svg";
-		  }else{
-			  a_art_src = log_array[1].artworkURL;
-		  }
-      }
-	  if(typeof log_array[1]._container.attributes.artwork?.bgColor != "undefined"){
-		  bgc = log_array[1]._container.attributes.artwork.bgColor;
-	  }else{
-		bgc = null;
-	  }
-    }
-    if (log_array[1].attributes.composerName == undefined) {
-      comps = null;
-    } else {
-      comps = log_array[1].attributes.composerName;
-    }
-	if (log_array[1].attributes.durationInMillis == undefined) {
-		metadata_duration = null;
-	  } else {
-		metadata_duration = log_array[1].attributes.durationInMillis / 1000;
-	  }
-    if (log_array[1].normalizedType == "music-videos") {
-      music_type = "mv";
-    } else {
-      music_type = "song";
-    }
-	if(typeof log_array[1]?._assets.length != "undefined" && typeof log_array[1]?.flavor != "undefined"){
-		if(log_array[1]._assets.length == 1){
-			music_bitrate = log_array[1]._assets[0].metadata.bitRate;
-		}else{
-			music_samplerate = null;
-		}
-		if(log_array[1]._assets.length > 1){
-			music_bitrate = log_array[1]._assets[0].metadata.bitRate;
-			if(typeof log_array[1]._assets[0].metadata?.sampleRate != "undefined"){
-				music_samplerate = log_array[1]._assets[0].metadata.sampleRate;
-			}else{
-				music_bitrate = null;
-				music_samplerate = null;
-			}
-		}else{
-			music_bitrate = null;
-			music_samplerate = null;
-		
-		}
-	}else{
-		music_bitrate = null;
-		music_samplerate = null;
-	}
-	if(typeof log_array[1]?.albumId == "undefined"){
-		if(typeof log_array[1]?._container.id != "undefined"){
-			al_id = log_array[1]._container.id;
-		}else{
-			al_id = null;
-		}
-	}else{
-		al_id = log_array[1].albumId;
-	}
-    var song_info = {
-      pl_trg: log_array[1]._container.type,
-      al_id: al_id,
-      s_id: log_array[1].attributes.playParams.id,
-      composer: comps,
-      song_name: log_array[1].attributes.name,
-      artist_name: log_array[1].attributes.artistName,
-      album_name: log_array[1].attributes.albumName,
-      art_work: a_art_src,
-      bg_color: bgc,
-      music_type: music_type,
-	  music_bitrate: music_bitrate,
-	  music_samplerate: music_samplerate,
-	  music_duration: metadata_duration
-    };
-    console.warn(song_info);
-    if (document.getElementById("amn_metadata") == null) {
-      var head = document.getElementsByTagName("body")[0];
-      var linka = document.createElement("script");
-      linka.id = "amn_metadata";
-      linka.type = "application/json";
-      linka.innerText = JSON.stringify(song_info);
-      head.appendChild(linka);
-    } else {
-      document.getElementById("amn_metadata").innerText = JSON.stringify(song_info);
-    }
-  }
-};`;
-	head.appendChild(linka);
+  	var top_script = document.createElement('script');
+	  top_script.src = chrome.runtime.getURL('top_scr.js');
+	  top_script.onload = function() {
+    	this.remove();
+	};
+	(document.head || document.documentElement).appendChild(top_script);
+	var top_css = document.createElement('link');
+	  top_css.href = chrome.runtime.getURL('dark_sh.css');
+	  console.log(chrome.runtime.getURL('dark_sh.css'));
+	  top_css.rel = "stylesheet";
+	(document.head || document.documentElement).appendChild(top_css);
 	//Metadata_ConsoleLog(Debug)
-	if(localStorage.getItem('music-app-pref:show-logs') == null){
+	/*if(localStorage.getItem('music-app-pref:show-logs') == null){
 		console.warn('DebugMode=>ON\r\nOFF=>Run"localStorage.setItem("music-app-pref:show-logs", false);"');
 		localStorage.setItem('music-app-pref:show-logs', true);
 	}else{
@@ -159,22 +49,10 @@ console.log = function () {
 		}else{
 			console.warn('DebugMode=>ON\r\nOFF=>Run"localStorage.setItem("music-app-pref:show-logs", false);"');
 		}
-	}
-	//create_background_image_css
-	const dark_css = '@media (prefers-color-scheme: dark) {#amn_backgroud_image{background-position: center;background-repeat: no-repeat;background-size: cover;height: 100%;width: 100%;z-index: 0;position: absolute;filter: brightness(0.3) blur(10px)'+String.raw` url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a' x='0' y='0' width='1' height='1' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur stdDeviation='10' result='b'/%3E%3CfeMorphology operator='dilate' radius='10'/%3E%3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E%3C/svg%3E#a");}`;
-	const light_css  ='#amn_backgroud_image{background-position: center;background-repeat: no-repeat;background-size: cover;height: 100%;width: 100%;z-index: 0;position: absolute;filter: blur(10px)'+String.raw` url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a' x='0' y='0' width='1' height='1' color-interpolation-filters='sRGB'%3E%3CfeGaussianBlur stdDeviation='10' result='b'/%3E%3CfeMorphology operator='dilate' radius='10'/%3E%3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='b'/%3E%3C/feMerge%3E%3C/filter%3E%3C/svg%3E#a");}`;
-	//var head = document.getElementsByTagName('head')[0];
-	var link = document.createElement('style');
-	link.innerText = light_css+dark_css;
-	head.appendChild(link);
-	//
+	}*/
 	if(localStorage.amn_content_eqd == undefined){
 		localStorage.setItem('amn_content_eqd', JSON.stringify({bass: 0, mid: 0, tre: 0, back_g: false, eq_tf: false}));
 	}
-	/*if(Object.keys(JSON.parse(localStorage.amn_content_eqd)).length < 1){
-		//backup restore
-		localStorage.setItem('amn_content_eqd', JSON.stringify({bass: JSON.parse(localStorage.amn_content_eqd_bup).bass, mid: JSON.parse(localStorage.amn_content_eqd_bup).mid, tre: JSON.parse(localStorage.amn_content_eqd_bup).tre, back_g: JSON.parse(localStorage.amn_content_eqd_bup).back_g, eq_tf: JSON.parse(localStorage.amn_content_eqd_bup).eq_tf}));
-	}*/
 	//append css
 	var cre_css = document.createElement("style");
 	cre_css.innerText = '.product-info {z-index: 0;}';
@@ -244,22 +122,22 @@ function appl() {
 			audio_duration = null;
 			audio_nowtime = null;
 		}else{
-			if(localStorage.getItem('music-app-pref:show-logs') == "true"){
+			try {
+				audio_duration = Math.ceil(JSON.parse(document.getElementById('amn_metadata').innerText).music_duration);
+			} catch (error) {
+				
+			}
+			//audio_duration = document.getElementsByTagName('audio')[0].duration;
+			/*if(localStorage.getItem('music-app-pref:show-logs') == "true"){
 				audio_duration = Math.ceil(JSON.parse(document.getElementById('amn_metadata').innerText).music_duration);
 			}else{
 				audio_duration = document.getElementsByTagName('audio')[0].duration;
-			}
+			}*/
 			audio_nowtime = document.getElementsByClassName("web-chrome-playback-lcd__scrub")[0].ariaValueNow;
-			//audio_nowtime = document.getElementsByClassName("web-chrome-playback-lcd__scrub")[0].style.cssText.substring(12,19) * 0.01 * 284.507
-			//audio_nowtime = document.getElementsByTagName('audio')[0].currentTime;
 			audio_pause = document.getElementsByTagName("audio")[0].paused;
 		}
-		
-		//end
-		//var clogs_length = console.logs.length - 1;
-		//console.log(console.logs[clogs_length]);
-		//
 		if ('mediaSession' in navigator && m_upl != ap_title) {
+			//alert("OK");
 			m_upl = ap_title;
 			navigator.mediaSession.metadata = new MediaMetadata({
 				title: ap_title,
@@ -267,7 +145,6 @@ function appl() {
 				album: alb,
 				artwork: [{ src: ar_rep,  sizes: '500x500',   type: 'image/jpeg' }]
 			});
-			
 			navigator.mediaSession.setActionHandler('play', function() {document.getElementsByClassName('button-reset web-chrome-playback-controls__playback-btn')[1].click()});
 			navigator.mediaSession.setActionHandler('pause', function() {document.getElementsByClassName('button-reset web-chrome-playback-controls__playback-btn')[1].click()});
 			navigator.mediaSession.setActionHandler('previoustrack', function() {document.getElementsByClassName('button-reset web-chrome-playback-controls__playback-btn')[0].click()});
@@ -276,7 +153,11 @@ function appl() {
 			if(document.getElementById('amn_metadata') != undefined){
 				var metadata = JSON.parse(document.getElementById('amn_metadata').innerText);
 				if(metadata.al_id != "undefined"){
-					nm_url = `https://music.apple.com/jp/album/${metadata.al_id}?i=${metadata.s_id}`;
+					if(metadata.s_id != -1){
+						nm_url = `https://music.apple.com/jp/song/${metadata.s_id}`;
+					}else{
+						nm_url = "";
+					}
 				}else{
 					nm_url = '';
 				}
@@ -336,129 +217,39 @@ function appl() {
 					//backup restore
 					localStorage.setItem('amn_content_eqd', JSON.stringify({bass: JSON.parse(localStorage.amn_content_eqd_bup).bass, mid: JSON.parse(localStorage.amn_content_eqd_bup).mid, tre: JSON.parse(localStorage.amn_content_eqd_bup).tre, back_g: JSON.parse(localStorage.amn_content_eqd_bup).back_g, eq_tf: JSON.parse(localStorage.amn_content_eqd_bup).eq_tf}));
 				}*/
-				// append backgroud
-				if(JSON.parse(localStorage.amn_content_eqd).back_g){
-					if(document.getElementById('amn_metadata') == undefined){
-						//XHRで画像もらってくる
-						var image_bin = "";
-						var image_xhr = new XMLHttpRequest();
-						image_xhr.open("GET", ar_rep, true);
-						image_xhr.responseType = "arraybuffer";
-						image_xhr.withCredentials = true;
-						image_xhr.onload = function(){
-							//console.log(image_xhr.status+"-"+image_xhr.readyState);
-							//console.log(ar_rep);
-							if(image_xhr.readyState == 4 && image_xhr.status == 200){
-								var im_byte = new Uint8Array(image_xhr.response);
-								for(var i=0;i<im_byte.byteLength;i++){
-									image_bin += String.fromCharCode(im_byte[i]);
-								}
-								image_b64 =  btoa(image_bin);
-								//console.log(image_b64);
-								//back append
-								append_background();
-							}
-						}
-						image_xhr.send();
-						append_background();
-					}else{
-						if(typeof document.getElementById('amn_metadata') != "undefined"){
-							chrome.runtime.sendMessage({type: "img_conv", url:ar_rep});
-							chrome.runtime.onMessage.addListener(function(img_b64_data, sender, sendResponse){
-								try{
-									if(img_b64_data.type == "img_conv_return"){
-									//console.warn(img_b64_data.b64_conv);
-									image_b64 = img_b64_data.b64_conv;
-									append_background();
-									}
-								}catch(e){
-
-								}
-								
-							})
-						}
+				//バックグラウンド
+				//バックグラウンドブラー画像
+				if(JSON.parse(localStorage.amn_content_eqd).back_g && document.getElementById("amn_backgroud_image") == null){
+					var back = document.createElement("div");
+					back.type = "image";
+	  				back.id = 'amn_backgroud_image';
+					//back.src = ar_rep;
+	  				document.getElementById("web-main").insertBefore(back, document.getElementById("web-main").firstChild);
+					  document.getElementById('amn_backgroud_image').animate({
+						backgroundImage: "url("+ar_rep+")",
+						filter: "blur(10px)"
+					  }, {
+						duration: 1500,
+						fill: "both"
+					  });
+				}else{
+					if(JSON.parse(localStorage.amn_content_eqd).back_g){
+						document.getElementById('amn_backgroud_image').animate({
+						backgroundImage: "url("+ar_rep+")",
+						filter: "blur(10px)"
+					}, {
+						duration: 1500,
+						fill: "both"
+					  });
 					}
 				}
 			}
-			//end
 		}
 		var send_info = {songname: ap_title, artist: artist_alb, img_url: ar_rep, duration: audio_duration, now_time: audio_nowtime, music_url: nm_url, music_bitrate: m_bitrate, music_samplerate: sm_rate, paused : audio_pause};
 		chrome.runtime.sendMessage(send_info);
+		
 	}
 }
-}
-
-function append_background() {
-	//missing svg
-	var image_type;
-	if (ar_rep == "https://music.apple.com/assets/product/MissingArtworkMusic.svg") {
-	  image_type = "image/svg+xml";
-	} else {
-	  image_type = "image/jpeg";
-	}
-	//amn_bacground_imageが無い状態のとき
-	if (document.getElementById('amn_backgroud_image') == null) {
-	  //create bakgroud
-	  var back = document.createElement("div");
-	  back.id = 'amn_backgroud_image';
-	  back.style = "background-image: url(" + "data:" + image_type + ";base64," + image_b64 + ");";
-	
-	  /*if (document.body.classList.value.indexOf('dark-mode') == -1) {
-		//background light-mode
-		back.style = "background-image: url(" + "data:" + image_type + ";base64," + image_b64 + ");";
-	  }
-	  if (document.body.classList.value.indexOf('dark-mode') != -1) {
-		//background light-mode
-		back.style = "background-image: url(" + "data:" + image_type + ";base64," + image_b64 + ");";
-	  }*/
-	  
-	  //noimage
-	  if (document.getElementById('amn_backgroud_image') != null) {
-		if (document.getElementById('amn_backgroud_image').style.backgroundImage == 'url("")') {
-		  document.getElementById('amn_backgroud_image').style.backgroundImage = ("url(" + "data:" + image_type + ";base64," + image_b64 + ")");
-		}
-	  }
-	  //append back
-	  document.getElementById("web-main").insertBefore(back, document.getElementById("web-main").firstChild);
-	  //既にバックグラウンドがあるとき
-	} else {
-		document.getElementById('amn_backgroud_image').animate({
-			backgroundImage: "url(" + "data:" + image_type + ";base64," + image_b64 + ")"
-		}, {
-			duration: 1000,
-			fill: "both"
-		});
-	  }
-
-	  //noimage
-	  if (document.getElementById('amn_backgroud_image') != null) {
-		if (document.getElementById('amn_backgroud_image').style.backgroundImage == 'url("")') {
-		  //retry load image
-		  for (var i = 0; i < 30; i++) {
-			if (document.body.classList.value.indexOf('dark-mode') == -1) {
-			  document.getElementById('amn_backgroud_image').animate({
-				backgroundImage: "url(" + "data:" + image_type + ";base64," + image_b64 + ")",
-				filter: "blur(10px)"
-			  }, {
-				duration: 1000,
-				fill: "both"
-			  });
-			}
-			if (document.body.classList.value.indexOf('dark-mode') != -1) {
-			  document.getElementById('amn_backgroud_image').animate({
-				backgroundImage: "url(" + "data:" + image_type + ";base64," + image_b64 + ")",
-				filter: "blur(10px) brightness(0.3)"
-			  }, {
-				duration: 1000,
-				fill: "both"
-			  });
-			}
-			if (document.getElementById('amn_backgroud_image').style.backgroundImage != 'url("")') {
-			  break
-			}
-		  }
-		}
-	  }
 }
 
 chrome.runtime.onMessage.addListener(function(durl_data, sender, sendResponse){
@@ -466,7 +257,8 @@ chrome.runtime.onMessage.addListener(function(durl_data, sender, sendResponse){
 	//console.log(durl_data);
 	try{
 		if (durl_data != null){
-			document.getElementsByTagName('audio')[0].currentTime = durl_data / 100;
+			document.getElementById("amn_time_changedata").textContent = JSON.stringify(durl_data / 100);
+			//change_time();
 		}
 	}catch(e){
 		//console.log(e);

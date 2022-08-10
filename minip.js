@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	var tw_s = document.getElementById('tw_share');
-	tw_s.src = chrome.extension.getURL('svg/twitter.svg');
+	tw_s.src = chrome.runtime.getURL('svg/twitter.svg');
 	tw_s.title = chrome.i18n.getMessage('tw_tit');
 	lyric.title = chrome.i18n.getMessage('lrc_tit');
 	document.getElementById('songname').innerText = chrome.i18n.getMessage('status_message');

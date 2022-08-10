@@ -16,10 +16,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 		paused = message.paused;
 		if(message.paused == false){
 			play_pause = 1;
-			document.getElementById('play').src = chrome.extension.getURL('svg/pause.svg');
+			document.getElementById('play').src = chrome.runtime.getURL('svg/pause.svg');
 		}else{
 			play_pause = 0;
-			document.getElementById('play').src = chrome.extension.getURL('svg/play.svg');
+			document.getElementById('play').src = chrome.runtime.getURL('svg/play.svg');
 		}
 		st_p = false;
 		song_name = message.songname;
@@ -144,14 +144,14 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
 	//
 	if(paused == null){
-		document.getElementById('play').src = chrome.extension.getURL('svg/play.svg');
+		document.getElementById('play').src = chrome.runtime.getURL('svg/play.svg');
 	}else{
 		if(message.paused == false){
 			play_pause = 1;
-			document.getElementById('play').src = chrome.extension.getURL('svg/pause.svg');
+			document.getElementById('play').src = chrome.runtime.getURL('svg/pause.svg');
 		}else{
 			play_pause = 0;
-			document.getElementById('play').src = chrome.extension.getURL('svg/play.svg');
+			document.getElementById('play').src = chrome.runtime.getURL('svg/play.svg');
 		}
 	}
 	
@@ -176,10 +176,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	document.getElementById('play').addEventListener('click', function(){
 		if(play_pause == 1){
 			play_pause = 0;
-			document.getElementById('play').src = chrome.extension.getURL('svg/pause.svg');
+			document.getElementById('play').src = chrome.runtime.getURL('svg/pause.svg');
 		}else{
 			play_pause = 1;
-			document.getElementById('play').src = chrome.extension.getURL('svg/play.svg');
+			document.getElementById('play').src = chrome.runtime.getURL('svg/play.svg');
 		}
 		var plctrl = {type: "play_ctrl", play: 1, next :0, prev: 0, tab_id: tid};
 		chrome.runtime.sendMessage(plctrl);
@@ -227,11 +227,11 @@ document.getElementById('feed_back').addEventListener('click', function() {
 		var mp_w;
 		var mp_h;
 		if(document.getElementById('new_minip_on').checked == true){
-			wop_url = chrome.extension.getURL('nv_minip.html');//20200912
+			wop_url = chrome.runtime.getURL('nv_minip.html');//20200912
 			mp_w = 480;
 			mp_h = 175;
 		}else{
-			wop_url = chrome.extension.getURL('minip.html');//20200912
+			wop_url = chrome.runtime.getURL('minip.html');//20200912
 			mp_w = 330;
 			mp_h = 520;
 		}
@@ -247,12 +247,12 @@ document.getElementById('feed_back').addEventListener('click', function() {
 	var settings = document.getElementById('set_icon');
 	var backg_on = document.getElementById('backg_tf');
 	//
-	tw_s.src = chrome.extension.getURL('svg/twitter.svg');
-	op_window.src = chrome.extension.getURL('svg/miniw.svg');
-	settings.src = chrome.extension.getURL('svg/settings.svg');
+	tw_s.src = chrome.runtime.getURL('svg/twitter.svg');
+	op_window.src = chrome.runtime.getURL('svg/miniw.svg');
+	settings.src = chrome.runtime.getURL('svg/settings.svg');
 	//
-	document.getElementById('next').src = chrome.extension.getURL('svg/next.svg');
-	document.getElementById('prv').src = chrome.extension.getURL('svg/prev.svg');
+	document.getElementById('next').src = chrome.runtime.getURL('svg/next.svg');
+	document.getElementById('prv').src = chrome.runtime.getURL('svg/prev.svg');
 	//
 	op_window.title = chrome.i18n.getMessage('open_window');
 	tw_s.title = chrome.i18n.getMessage('tw_tit');

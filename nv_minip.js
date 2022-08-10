@@ -40,17 +40,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 						image_bin += String.fromCharCode(im_byte[i]);
 					}
 					image_b64 =  btoa(image_bin);
-					//console.log(image_b64);
-					//back append
-					document.getElementById('fl_back_cover').src = "data:" + image_type + ";base64," + image_b64;
-					document.getElementById('cover').animate({backgroundImage:"url(" + "data:" + image_type + ";base64," + image_b64 + ")"}, {duration :1000, fill:"both"});
+					
 				}
 			}
 			image_xhr.send();
-			/*fcsr
 			document.getElementById('fl_back_cover').src = message.img_url;
-			document.getElementById('cover').animate({backgroundImage:"url("+message.img_url+")"}, {duration :1000, fill:"both"});
-			*/
+			document.getElementById('cover').src = message.img_url;
 			mdata = message.songname;
 			m_shurl = message.music_url;
 			document.getElementById('songname').innerText = song_name;
@@ -106,11 +101,11 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	});
 	var tw_s = document.getElementById('tw_share');
-	tw_s.src = chrome.extension.getURL('svg/twitter.svg');
+	tw_s.src = chrome.runtime.getURL('svg/twitter.svg');
 	tw_s.title = chrome.i18n.getMessage('tw_tit');
 	lyric.title = chrome.i18n.getMessage('lrc_tit');
 	//fullscr
-	document.getElementById('full_screen').src = chrome.extension.getURL('svg/fullscr.svg');
+	document.getElementById('full_screen').src = chrome.runtime.getURL('svg/fullscr.svg');
 	document.getElementById('full_screen').title = chrome.i18n.getMessage('fullscr_message');
 	document.getElementById('full_screen').addEventListener('click', function() {
 		full_scr_status = true;
