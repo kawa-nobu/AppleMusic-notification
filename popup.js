@@ -45,6 +45,11 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 			document.getElementById('mid_bar').disabled = false;
 			document.getElementById('tre_bar').disabled = false;
 			document.getElementById('eq_reset').disabled = false;
+			//
+			document.getElementById("s_bar").disabled = false;
+			document.getElementById("play").disabled = false;
+			document.getElementById("prv").disabled = false;
+			document.getElementById("next").disabled = false;
 		}
 		//nowtime
 		var dr_m = new Date(parseInt(message.duration*1000));

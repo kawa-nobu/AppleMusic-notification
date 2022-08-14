@@ -31,7 +31,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 chrome.runtime.onMessage.addListener(function(dur_data, sender, sendResponse){
   //popupからもらった時間変更の値をcontentへ送信
   if(dur_data.tab_id != undefined){
-      chrome.tabs.sendMessage(dur_data.tab_id, dur_data.change_time);
+      chrome.tabs.sendMessage(dur_data.tab_id, dur_data.change_time).catch(function( error ){
+        //シークエラー無視
+        //console.log( error );
+    }).then(function (){});
   }
   return true;
 });
@@ -40,7 +43,10 @@ chrome.runtime.onMessage.addListener(function(eqa_data, sender, sendResponse){
   //console.log(eqa_data);
   tab_id = eqa_data.tab_id;
   if(eqa_data.bass != undefined){
-      chrome.tabs.sendMessage(eqa_data.tab_id,eqa_data);
+      chrome.tabs.sendMessage(eqa_data.tab_id,eqa_data).catch(function( error ){
+        //エラー無視
+        //console.log( error );
+    }).then(function (){});
   }
   return true;
 });
@@ -48,7 +54,10 @@ chrome.runtime.onMessage.addListener(function(play_ctrl, sender, sendResponse){
   //Play Control
   //console.log(play_ctrl);
   if(play_ctrl.play != undefined){
-      chrome.tabs.sendMessage(play_ctrl.tab_id,play_ctrl);
+      chrome.tabs.sendMessage(play_ctrl.tab_id,play_ctrl).catch(function( error ){
+        //エラー無視
+        //console.log( error );
+    }).then(function (){});
   }
   return true;
 });
@@ -68,7 +77,10 @@ chrome.runtime.onMessage.addListener(function(artwork_conv, sender, sendResponse
                           image_bin += String.fromCharCode(im_byte[i]);
                       }
                       //console.log(btoa(image_bin));
-                      chrome.tabs.sendMessage(sender.tab.id,{type: "img_conv_return", b64_conv: btoa(image_bin)});
+                      chrome.tabs.sendMessage(sender.tab.id,{type: "img_conv_return", b64_conv: btoa(image_bin)}).catch(function( error ){
+                        //エラー無視
+                        //console.log( error );
+                    }).then(function (){});
                   }
               }
               image_xhr.send();

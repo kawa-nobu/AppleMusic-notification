@@ -14,7 +14,7 @@ console.log = function () {
   log_array.push.apply(log_array, arguments);
   //console.warn(log_array);
   if (log_array[0] == "PLAY!" && typeof audioPlayer != "undefined") {
-	  
+	  document.getElementById("amn_time_changedata").textContent = 0;
 	  if(typeof audioPlayer._nowPlayingItem.attributes.artwork?.url  == 'undefined'){
 		  if(typeof audioPlayer._nowPlayingItem?.hasContainerArtwork == 'undefined'){
 			ap_album_art = "https://music.apple.com/assets/product/MissingArtworkMusic.svg";
@@ -40,14 +40,14 @@ console.log = function () {
 	  music_duration: audioPlayer._nowPlayingItem.attributes.durationInMillis / 1000,
 	  time_t_duration: ""
     };
-    console.warn(song_info);
+    //console.warn(song_info);
 	//
-	var head = document.getElementsByTagName("body")[0];
+/*	var head = document.getElementsByTagName("body")[0];
       var linka = document.createElement("script");
       linka.id = "amn_metadata";
       linka.type = "application/json";
       linka.innerText = "";
-      head.appendChild(linka);
+      head.appendChild(linka);*/
 	  //
     if (document.getElementById("amn_metadata") == null) {
       var head = document.getElementsByTagName("body")[0];
@@ -70,10 +70,11 @@ var timehead = document.getElementsByTagName("body")[0];
 	timehead.appendChild(time_create);
 
 const Time_observer = new MutationObserver((mutations) => {
-	try {
-		audioPlayer.seekToTime(parseFloat(document.getElementById('amn_time_changedata').textContent));
-		//console.warn(parseFloat(document.getElementById('amn_time_changedata').textContent));
-	} catch (error) {}
+  Time_observer.disconnect();
+  audioPlayer.seekToTime(parseFloat(document.getElementById('amn_time_changedata').textContent)).then(function(){seek_flag = false;});
+  Time_observer.observe(Time_el, {
+    childList: true
+    });
   });
   const Time_el = document.getElementById('amn_time_changedata');
   Time_observer.observe(Time_el, {

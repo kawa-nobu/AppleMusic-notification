@@ -25,6 +25,6 @@
     "s_prev": { "message": "Previous song" },
     "tos": { "message": "Terms of Service" },
     "feedback": { "message": "Send feedback" },
-    "tos_message": { "message": "This extension is open source software. For more information, visit the Chrome Web Store and visit the GitHub repository for this extension.\r\nPlease use at your own risk.\r\nThis extension leverages Apple Music debug logs to enhance what is displayed.\r\nWith this extension, information is not sent to an external server except when the lyrics are displayed and when the album art is acquired. In addition, we do not acquire any information that identifies the user and send it to the outside." },
+    "tos_message": { "message": "This extension is open source software. For more information, visit the Chrome Web Store and visit the GitHub repository for this extension.\r\nPlease use at your own risk.\r\nWith this extension, information is not sent to an external server except when the lyrics are displayed and when the album art is acquired. In addition, we do not acquire any information that identifies the user and send it to the outside." },
     "feedback_url": { "message": "https://forms.gle/rspX2EoAF2MhTVMZ6" }
 }
