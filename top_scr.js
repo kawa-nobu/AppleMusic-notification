@@ -1,5 +1,5 @@
-var logdata = console.log;
-var log_array = [];
+//var logdata = console.log;
+//var log_array = [];
 var bgc;
 var comps;
 var a_art_src;
@@ -9,7 +9,7 @@ var music_samplerate;
 var music_relese_date;
 var al_id;
 var ap_album_art;
-console.log = function () {
+/*console.log = function () {
   log_array = [];
   log_array.push.apply(log_array, arguments);
   //console.warn(log_array);
@@ -47,7 +47,7 @@ console.log = function () {
       linka.id = "amn_metadata";
       linka.type = "application/json";
       linka.innerText = "";
-      head.appendChild(linka);*/
+      head.appendChild(linka);
 	  //
     if (document.getElementById("amn_metadata") == null) {
       var head = document.getElementsByTagName("body")[0];
@@ -60,14 +60,64 @@ console.log = function () {
       document.getElementById("amn_metadata").innerText = JSON.stringify(song_info);
     }
   }
-};
+};*/
 //
+function get_append(){
+  if (typeof audioPlayer != "undefined") {
+	  document.getElementById("amn_time_changedata").textContent = 0;
+    try{
+      if(typeof audioPlayer._nowPlayingItem.attributes.artwork?.url  == 'undefined'){
+        if(typeof audioPlayer._nowPlayingItem?.hasContainerArtwork == 'undefined'){
+        ap_album_art = "https://music.apple.com/assets/product/MissingArtworkMusic.svg";
+        }else{
+          ap_album_art = audioPlayer._nowPlayingItem.hasContainerArtwork;
+        }
+      }else{
+      ap_album_art = audioPlayer._nowPlayingItem.attributes.artwork.url;
+      }
+    }catch{}
+    var song_info = {
+      pl_trg: audioPlayer._nowPlayingItem._container.type,
+      al_id: null,//audioPlayer._nowPlayingItem._container.id
+      s_id: audioPlayer._nowPlayingItem._songId,
+      composer: audioPlayer._nowPlayingItem.attributes.composerName,
+      song_name: audioPlayer._nowPlayingItem.attributes.name,
+      artist_name: audioPlayer._nowPlayingItem.attributes.artistName,
+      album_name: audioPlayer._nowPlayingItem.attributes.albumName,
+      art_work: ap_album_art,
+      bg_color: null,
+      music_type: audioPlayer._nowPlayingItem.normalizedType,
+	  music_bitrate: audioPlayer.bitrate,
+	  music_samplerate: null,
+	  music_duration: audioPlayer._nowPlayingItem.attributes.durationInMillis / 1000,
+	  time_t_duration: ""
+    };
+    if (document.getElementById("amn_metadata") == null) {
+      var head = document.getElementsByTagName("body")[0];
+      var linka = document.createElement("script");
+      linka.id = "amn_metadata";
+      linka.type = "application/json";
+      linka.innerText = JSON.stringify(song_info);
+      head.appendChild(linka);
+    } else {
+      document.getElementById("amn_metadata").innerText = JSON.stringify(song_info);
+    }
+  }
+}
+
+
 var timehead = document.getElementsByTagName("body")[0];
 	var time_create = document.createElement("span");
 	time_create.id = "amn_time_changedata";
 	time_create.style = "display:none";
 	time_create.textContent = 0;
 	timehead.appendChild(time_create);
+  //now_time
+  var now_time_create = document.createElement("span");
+	now_time_create.id = "amn_now_time";
+	now_time_create.style = "display:none";
+	now_time_create.textContent = 0;
+	timehead.appendChild(now_time_create);
 
 const Time_observer = new MutationObserver((mutations) => {
   Time_observer.disconnect();
@@ -82,12 +132,25 @@ const Time_observer = new MutationObserver((mutations) => {
   });
   var watch_name_old;
   function name_watch(){
-	  if(typeof document.getElementsByClassName("web-chrome-playback-lcd__song-name-scroll-inner-text-wrapper")[0]?.innerText != 'undefined'){
-		if(document.getElementsByClassName("web-chrome-playback-lcd__song-name-scroll-inner-text-wrapper")[0].innerText != watch_name_old){
+    var name_query;
+    try{
+      name_query = document.getElementsByTagName("amp-chrome-player")[0].shadowRoot.querySelector("div").querySelector(".chrome-player__lcd").getElementsByTagName("amp-lcd")[0].shadowRoot.querySelector(".lcd__track-info-container").querySelector(".lcd-meta .lcd-meta__primary-wrapper .lcd-meta-line__fragment").innerText;
+    }catch(e){
+      name_query  = undefined;
+    }
+	  if(typeof name_query != 'undefined'){
+		if(name_query != watch_name_old){
 			//曲目変更フラグ
 			console.log("PLAY!");
+      get_append();
 		}
-		watch_name_old = document.getElementsByClassName("web-chrome-playback-lcd__song-name-scroll-inner-text-wrapper")[0].innerText;
+		watch_name_old = name_query;
 	  }
+    //now_timeWite
+    if(typeof audioPlayer != 'undefined'){
+      document.getElementById("amn_now_time").innerText = audioPlayer._currentTime;
+    }else{
+    }
+    
   }
-  const watch_timer = setInterval(name_watch, 100);
+  const watch_timer = setInterval(name_watch, 500);

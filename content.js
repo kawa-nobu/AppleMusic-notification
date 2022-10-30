@@ -39,17 +39,6 @@ window.onload = function(){
 	  console.log(chrome.runtime.getURL('dark_sh.css'));
 	  top_css.rel = "stylesheet";
 	(document.head || document.documentElement).appendChild(top_css);
-	//Metadata_ConsoleLog(Debug)
-	/*if(localStorage.getItem('music-app-pref:show-logs') == null){
-		console.warn('DebugMode=>ON\r\nOFF=>Run"localStorage.setItem("music-app-pref:show-logs", false);"');
-		localStorage.setItem('music-app-pref:show-logs', true);
-	}else{
-		if(localStorage.getItem('music-app-pref:show-logs') == "false"){
-			console.warn('DebugMode=>OFF\r\nON=>Run"localStorage.setItem("music-app-pref:show-logs", true);"');
-		}else{
-			console.warn('DebugMode=>ON\r\nOFF=>Run"localStorage.setItem("music-app-pref:show-logs", false);"');
-		}
-	}*/
 	if(localStorage.amn_content_eqd == undefined){
 		localStorage.setItem('amn_content_eqd', JSON.stringify({bass: 0, mid: 0, tre: 0, back_g: false, eq_tf: false}));
 	}
@@ -59,21 +48,15 @@ window.onload = function(){
 	document.getElementsByTagName('head')[0].appendChild(cre_css);
 setInterval(appl, 550);
 function appl() {
-	try {
-		if(location.hostname == "music.apple.com"){
-			if(location.pathname == "/library/albums" || location.pathname == "/library/albums/"){
-				document.getElementsByClassName('albums-virtual-scrolling-container')[0].removeAttribute('style');
-			}
-			if(location.pathname.indexOf("/library/albums/") == 0 && location.pathname != "/library/albums/"){
-				if(document.getElementsByClassName('media-artwork-v2__image')[1].naturalHeight >= 1900){
-					document.getElementsByClassName('media-artwork-v2__image')[1].style.height = "270px";
-				}
-			}
-		}
-	} catch (error) {
-		
+	try{
+		var name_query = document.getElementsByTagName("amp-chrome-player")[0].shadowRoot.querySelector("div").querySelector(".chrome-player__lcd").getElementsByTagName("amp-lcd")[0].shadowRoot.querySelector(".lcd__track-info-container").querySelector(".lcd-meta .lcd-meta__primary-wrapper .lcd-meta-line__fragment").innerText;
+		var picture_query = document.getElementsByTagName("amp-chrome-player")[0].shadowRoot.querySelector("div").querySelector(".chrome-player__lcd").getElementsByTagName("amp-lcd")[0].shadowRoot.querySelector("div picture img").src;
+	}catch{
+		var name_query = "none";
+		var picture_query= "none";
 	}
-	if (document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll')[0] == null || document.getElementsByClassName('media-artwork-v2__image')[0].currentSrc == "") {
+	
+	if (name_query == null || picture_query == "") {
 		var test = true;
 	}else{
 		if(location.hostname == "music.apple.com"){ //AppleMusic WebPlayer Only
@@ -102,18 +85,18 @@ function appl() {
 					sm_rate = null;
 				}
 				
-				var lcds_arts = document.getElementsByClassName('media-artwork-v2__image')[0];
-				if(lcds_arts.src == "https://music.apple.com/assets/product/MissingArtworkMusic.svg" || lcds_arts.src == "https://music.apple.com/assets/product/MissingArtworkMusic_dark.svg" ||  lcds_arts.src.indexOf(".blobstore.apple.com")>-1){
-					lcds_arts.src = ar_rep;
+				var lcds_arts = picture_query;
+				if(lcds_arts == "https://music.apple.com/assets/product/MissingArtworkMusic.svg" || lcds_arts == "https://music.apple.com/assets/product/MissingArtworkMusic_dark.svg" ||  lcds_arts.indexOf(".blobstore.apple.com")>-1){
+					lcds_arts = ar_rep;
 				}
 			}else{
-				ap_title = document.getElementsByClassName('web-chrome-playback-lcd__song-name-scroll-inner-text-wrapper')[0].innerText.trim();
-				ap_al = document.getElementsByClassName('web-chrome-playback-lcd__sub-copy-scroll')[0].innerText;
-				artw = document.getElementsByClassName('media-artwork-v2__image')[0].currentSrc;
-				ar_rep = artw.replace(/\d{1,3}x\d{1,3}bb(?:-\d{1,4})?/g, '500x500');
-				alb = document.getElementsByClassName('web-chrome-playback-lcd__sub-copy-scroll-inner-text-wrapper')[0].childNodes[3].textContent;
-				artist_alb = ap_al.split(/\s[\u2014]\s\s/)[0] + "<=-=>" + ap_al.split(/\s[\u2014]\s\s/)[1];
-				ms_ar_al = ap_al.split(/\s[\u2014]\s\s/)[0] + "-" + ap_al.split(/\s[\u2014]\s\s/)[1];
+				ap_title = "none";
+				ap_al = "none";
+				artw = "none";
+				ar_rep = "none";
+				alb = "none";
+				artist_alb = "none";
+				ms_ar_al = "none";
 			}
 		//end
 		//2020_05_24_nowtime
@@ -133,8 +116,13 @@ function appl() {
 			}else{
 				audio_duration = document.getElementsByTagName('audio')[0].duration;
 			}*/
-			audio_nowtime = document.getElementsByClassName("web-chrome-playback-lcd__scrub")[0].ariaValueNow;
-			audio_pause = document.getElementsByTagName("audio")[0].paused;
+			audio_nowtime = document.getElementById("amn_now_time").innerText;
+			if(document.getElementsByTagName("audio")[0] != undefined ){
+				audio_pause = document.getElementsByTagName("audio")[0].paused;
+			}else{
+				audio_pause = false;
+			}
+			
 		}
 		if ('mediaSession' in navigator && m_upl != ap_title) {
 			//alert("OK");
@@ -224,7 +212,7 @@ function appl() {
 					back.type = "image";
 	  				back.id = 'amn_backgroud_image';
 					//back.src = ar_rep;
-	  				document.getElementById("web-main").insertBefore(back, document.getElementById("web-main").firstChild);
+					document.getElementsByTagName("main")[0].insertBefore(back, document.getElementsByTagName("main")[0].firstChild);
 					  document.getElementById('amn_backgroud_image').animate({
 						backgroundImage: "url("+ar_rep+")",
 						filter: "blur(10px)"
@@ -315,10 +303,10 @@ chrome.runtime.onMessage.addListener(function(play_ctrl, sender, sendResponse){
 				}
 			}
 			if(play_ctrl.next == 1){
-				document.getElementsByClassName('button-reset web-chrome-playback-controls__playback-btn')[2].click();
+				document.getElementsByTagName("amp-chrome-player")[0].shadowRoot.querySelector(".chrome-player__container div apple-music-playback-controls").shadowRoot.querySelector(".music-controls__main amp-playback-controls-item-skip.next").shadowRoot.querySelector("button").click();
 			}
 			if(play_ctrl.prev == 1){
-				document.getElementsByClassName('button-reset web-chrome-playback-controls__playback-btn')[0].click();
+				document.getElementsByTagName("amp-chrome-player")[0].shadowRoot.querySelector(".chrome-player__container div apple-music-playback-controls").shadowRoot.querySelector(".music-controls__main amp-playback-controls-item-skip.previous").shadowRoot.querySelector("button").click();
 			}
 		}catch(e){
 			//console.log(e);
