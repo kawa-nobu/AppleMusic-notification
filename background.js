@@ -21,7 +21,7 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
     //contentからのメタデータpopupに送信
-    console.log(message);
+    //console.log(message);
   chrome.runtime.sendMessage(message).catch(function( error ){
     //popupが開いていない時の接続エラー無視
     //console.log( error );

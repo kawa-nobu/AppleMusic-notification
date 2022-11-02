@@ -110,12 +110,6 @@ function appl() {
 			} catch (error) {
 				
 			}
-			//audio_duration = document.getElementsByTagName('audio')[0].duration;
-			/*if(localStorage.getItem('music-app-pref:show-logs') == "true"){
-				audio_duration = Math.ceil(JSON.parse(document.getElementById('amn_metadata').innerText).music_duration);
-			}else{
-				audio_duration = document.getElementsByTagName('audio')[0].duration;
-			}*/
 			audio_nowtime = document.getElementById("amn_now_time").innerText;
 			if(document.getElementsByTagName("audio")[0] != undefined ){
 				audio_pause = document.getElementsByTagName("audio")[0].paused;
@@ -201,10 +195,6 @@ function appl() {
 					//localStorage.setItem('amn_content_eqd_bup', JSON.stringify({bass: JSON.parse(localStorage.amn_content_eqd).bass, mid: JSON.parse(localStorage.amn_content_eqd).mid, tre: JSON.parse(localStorage.amn_content_eqd).tre, back_g: JSON.parse(localStorage.amn_content_eqd).back_g, eq_tf: JSON.parse(localStorage.amn_content_eqd).eq_tf}));
 					ef_init = false;
 				}
-				/*if(Object.keys(JSON.parse(localStorage.amn_content_eqd)).length < 1){
-					//backup restore
-					localStorage.setItem('amn_content_eqd', JSON.stringify({bass: JSON.parse(localStorage.amn_content_eqd_bup).bass, mid: JSON.parse(localStorage.amn_content_eqd_bup).mid, tre: JSON.parse(localStorage.amn_content_eqd_bup).tre, back_g: JSON.parse(localStorage.amn_content_eqd_bup).back_g, eq_tf: JSON.parse(localStorage.amn_content_eqd_bup).eq_tf}));
-				}*/
 				//バックグラウンド
 				//バックグラウンドブラー画像
 				if(JSON.parse(localStorage.amn_content_eqd).back_g && document.getElementById("amn_backgroud_image") == null){
